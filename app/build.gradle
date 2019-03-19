@@ -54,6 +54,9 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
 
+    implementation 'com.melnykov:floatingactionbutton:1.1.0'
+    implementation 'com.jpardogo.materialtabstrip:library:1.0.6'
+
     // Colors
     implementation 'com.thebluealliance:spectrum:0.7.1'
 
