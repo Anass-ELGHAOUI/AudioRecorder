@@ -7,7 +7,6 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaRecorder;
-import android.os.Environment;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -22,10 +21,8 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static com.github.mikephil.charting.charts.Chart.LOG_TAG;
-
 /**
- * Created by Daniel on 12/28/2014.
+ * Created by Anass on 16/03/2019.
  */
 public class RecordingService extends Service {
 
