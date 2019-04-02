@@ -31,7 +31,8 @@
             android:id="@+id/image_view_foot_print"
             android:layout_width="800px"
             android:layout_height="900px"
-            android:src="@drawable/footprint"
+            android:src="@drawable/ic_footprint"
+            android:tint="@color/grey_dark"
             android:contentDescription="@string/new_record"
             />
     </LinearLayout>

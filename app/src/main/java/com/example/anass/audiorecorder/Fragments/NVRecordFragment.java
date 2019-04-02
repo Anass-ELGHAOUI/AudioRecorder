@@ -1,14 +1,11 @@
 package com.example.anass.audiorecorder.Fragments;
 
-import android.Manifest;
 import android.app.Fragment;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +15,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.anass.audiorecorder.Activities.MainActivity;
+import com.example.anass.audiorecorder.Helper.OnSwipeTouchListener;
 import com.example.anass.audiorecorder.Helper.RecordingService;
+import com.example.anass.audiorecorder.Helper.Utils;
 import com.example.anass.audiorecorder.R;
 
 import java.io.File;
@@ -27,7 +26,6 @@ import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.OnLongClick;
 
 
@@ -54,10 +52,12 @@ public class NVRecordFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.nv_record_fragment, container, false);
         ButterKnife.bind(this, view);
+        activity = (MainActivity) getActivity();
         return view;
     }
 
     public void init() {
+        swipeConfiguration();
         mTTS = new TextToSpeech(activity.getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -67,8 +67,7 @@ public class NVRecordFragment extends Fragment {
                             || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                         Log.e("TTS", "Language not supported");
                     } else {
-                        speak("Appuyer une fois pour ajouter un nouveau record, pour enregistrer appuyer une deuxiéme fois, " +
-                                " glisser vers la droite pour revenir au menu précédent, Appuyer longtemps pour écouter le consigne");
+                        getInstructions();
                     }
                 } else {
                     Log.e("TTS", "Initialization failed");
@@ -80,14 +79,19 @@ public class NVRecordFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        init();
     }
 
     private void speak(String text) {
         mTTS.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
     }
 
-    @OnClick(R.id.image_view_foot_print)
+    /*@OnClick(R.id.image_view_foot_print)
     public void Record() {
+        if (mTTS .isSpeaking()) {
+            mTTS.stop();
+            mTTS.shutdown();
+        }
         mStartRecording = !mStartRecording;
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.RECORD_AUDIO)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -96,12 +100,52 @@ public class NVRecordFragment extends Fragment {
         } else {
             onRecord(mStartRecording);
         }
+    }*/
+
+    public void getInstructions() {
+        speak("Glissez ver le haut pour ajouter un nouveau record, vers le bas pour enregistrez le record, " +
+                " vers la droite pour revenir au menu précédent, vers la gauche pour écouter les consignes");
     }
 
-    @OnLongClick(R.id.image_view_foot_print)
-    public boolean getInstructions() {
-        return true;
+    private void swipeConfiguration(){
+        imageView.setOnTouchListener(new OnSwipeTouchListener(activity) {
+            public void onSwipeTop() {
+                if (!mStartRecording) {
+                    mStartRecording = !mStartRecording;
+                    onRecord(mStartRecording);
+                }
+
+            }
+            public void onSwipeRight() {
+                if (mTTS.isSpeaking()) {
+                    mTTS.stop();
+                    mTTS.shutdown();
+                }
+                if (!mStartRecording) {
+                    activity.onBackPressed();
+                }
+            }
+            public void onSwipeLeft() {
+                if (mTTS.isSpeaking()) {
+                    mTTS.stop();
+                    mTTS.shutdown();
+                }
+                if (!mStartRecording) {
+                    getInstructions();
+                }
+
+            }
+            public void onSwipeBottom() {
+                if (mStartRecording) {
+                    mStartRecording = !mStartRecording;
+                    onRecord(mStartRecording);
+                }
+
+            }
+
+        });
     }
+
 
     private void onRecord(boolean start) {
         Intent intent = new Intent(getActivity(), RecordingService.class);
@@ -123,6 +167,8 @@ public class NVRecordFragment extends Fragment {
             getActivity().stopService(intent);
             //allow the screen to turn off again once recording is finished
             getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            speak("Record enregistrer avec succés");
+            getInstructions();
         }
     }
 

@@ -69,11 +69,19 @@ public class ModeChoiceFragment extends Fragment{
             }
             public void onSwipeRight() {
                 activity.navigateTo(NVChoiceFragment.newInstance());
+                if (mTTS.isSpeaking()) {
+                    mTTS.stop();
+                    mTTS.shutdown();
+                }
             }
             public void onSwipeLeft() {
                 Utils.makeToast(activity,"left");
             }
             public void onSwipeBottom() {
+                if (mTTS.isSpeaking()) {
+                    mTTS.stop();
+                    mTTS.shutdown();
+                }
                 activity.onBackPressed();
             }
 

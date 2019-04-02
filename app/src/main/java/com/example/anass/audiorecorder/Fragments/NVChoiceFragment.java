@@ -70,9 +70,17 @@ public class NVChoiceFragment extends Fragment{
                 activity.onBackPressed();
             }
             public void onSwipeLeft() {
+                if (mTTS.isSpeaking()) {
+                    mTTS.stop();
+                    mTTS.shutdown();
+                }
                 activity.navigateTo(NVRecordFragment.newInstance());
             }
             public void onSwipeBottom() {
+                if (mTTS.isSpeaking()) {
+                    mTTS.stop();
+                    mTTS.shutdown();
+                }
                 textToSpeechConverter("pour enregistrer un nouveau record glisser vers la gauche, pour consulter la liste des enregistrements glisser vers le haut. Pour revenir glisser vers la droite.  glisser vers le bas pour écouter pour écouter le consigne ");
             }
 
