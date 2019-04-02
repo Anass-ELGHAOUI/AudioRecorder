@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.anass.audiorecorder.Activities.MainActivity;
 import com.example.anass.audiorecorder.Helper.OnSwipeTouchListener;
@@ -25,16 +24,16 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnLongClick;
 
-public class ModeChoiceFragment extends Fragment{
+public class NVChoiceFragment extends Fragment{
 
-    @Bind(R.id.iv_choice)
+    @Bind(R.id.iv_nv_choice)
     public ImageView ivChoice;
 
     MainActivity activity;
     private TextToSpeech mTTS;
 
-    public static ModeChoiceFragment newInstance() {
-        ModeChoiceFragment fragment = new ModeChoiceFragment();
+    public static NVChoiceFragment newInstance() {
+        NVChoiceFragment fragment = new NVChoiceFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -44,7 +43,7 @@ public class ModeChoiceFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.mode_choice_fragment, container, false);
+        View view = inflater.inflate(R.layout.nv_choice_fragment, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -52,7 +51,7 @@ public class ModeChoiceFragment extends Fragment{
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.i("login activity ", "login lanched");
+        Log.i("nv choice fragment", "lanched");
         activity = (MainActivity) getActivity();
         init();
     }
@@ -68,13 +67,13 @@ public class ModeChoiceFragment extends Fragment{
                 Utils.makeToast(activity,"top");
             }
             public void onSwipeRight() {
-                activity.navigateTo(NVChoiceFragment.newInstance());
+                activity.onBackPressed();
             }
             public void onSwipeLeft() {
-                Utils.makeToast(activity,"left");
+                activity.navigateTo(NVRecordFragment.newInstance());
             }
             public void onSwipeBottom() {
-                activity.onBackPressed();
+                textToSpeechConverter("pour enregistrer un nouveau record glisser vers la gauche, pour consulter la liste des enregistrements glisser vers le haut. Pour revenir glisser vers la droite.  glisser vers le bas pour écouter pour écouter le consigne ");
             }
 
         });
@@ -91,8 +90,7 @@ public class ModeChoiceFragment extends Fragment{
                             || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                         Log.e("TTS", "Language not supported");
                     } else {
-                        textToSpeechConverter("Acceuil. Pour l'utilisation de mode normal glisser vers la gauche sinon glisser vers la droite. pour quitter glissez vers le bas.  Appuyer longtemps pour écouter le consigne ");
-                    }
+                        textToSpeechConverter("pour enregistrer un nouveau record glisser vers la gauche, pour consulter la liste des enregistrements glisser vers le haut. Pour revenir glisser vers la droite.  glisser vers le bas pour écouter pour écouter le consigne ");                    }
                 } else {
                     Log.e("TTS", "Initialization failed");
                 }
@@ -121,12 +119,6 @@ public class ModeChoiceFragment extends Fragment{
         mTTS.speak(text, TextToSpeech.QUEUE_FLUSH, null, utteranceId);
     }
 
-    @OnLongClick(R.id.iv_choice)
-    public boolean onReplay(){
-        textToSpeechConverter("Acceuil. Pour l'utilisation de mode normal glisser vers la gauche sinon glisser vers la droite. pour quitter glissez vers la bas.  Appuyer longtemps pour écouter le consigne ");
-        return true;
-    }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -135,5 +127,4 @@ public class ModeChoiceFragment extends Fragment{
             mTTS.shutdown();
         }
     }
-
 }

@@ -99,8 +99,8 @@ public class NVRecordFragment extends Fragment {
     }
 
     @OnLongClick(R.id.image_view_foot_print)
-    public void getInstructions() {
-
+    public boolean getInstructions() {
+        return true;
     }
 
     private void onRecord(boolean start) {

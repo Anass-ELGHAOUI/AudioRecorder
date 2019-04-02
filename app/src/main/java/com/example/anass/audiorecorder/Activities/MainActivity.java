@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.anass.audiorecorder.Fragments.ModeChoiceFragment;
+import com.example.anass.audiorecorder.Fragments.NVRecordFragment;
 import com.example.anass.audiorecorder.Fragments.RecordFragment;
 import com.example.anass.audiorecorder.R;
 
