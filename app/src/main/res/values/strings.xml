@@ -10,4 +10,6 @@
 
     <!-- Notifications -->
     <string name="notification_recording">Recording...</string>
+    <string name="direction_image">direction image</string>
+    <string name="mode_selection">mode selection</string>
 </resources>

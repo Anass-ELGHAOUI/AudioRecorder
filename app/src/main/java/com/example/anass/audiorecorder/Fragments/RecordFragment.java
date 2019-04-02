@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.SystemClock;
@@ -23,18 +22,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.anass.audiorecorder.Helper.RecordingService;
-import com.example.anass.audiorecorder.MainActivity;
+import com.example.anass.audiorecorder.Activities.MainActivity;
 import com.example.anass.audiorecorder.R;
 import com.melnykov.fab.FloatingActionButton;
 
 import java.io.File;
-import java.io.IOException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static com.github.mikephil.charting.charts.Chart.LOG_TAG;
 
 
 public class RecordFragment extends Fragment{

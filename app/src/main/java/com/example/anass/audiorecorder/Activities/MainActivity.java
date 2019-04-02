@@ -1,4 +1,4 @@
-package com.example.anass.audiorecorder;
+package com.example.anass.audiorecorder.Activities;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.example.anass.audiorecorder.Fragments.ModeChoiceFragment;
 import com.example.anass.audiorecorder.Fragments.RecordFragment;
+import com.example.anass.audiorecorder.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -14,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        this.navigateTo(RecordFragment.newInstance());
+        this.navigateTo(ModeChoiceFragment.newInstance());
     }
 
     public void navigateTo(Fragment fragment){
