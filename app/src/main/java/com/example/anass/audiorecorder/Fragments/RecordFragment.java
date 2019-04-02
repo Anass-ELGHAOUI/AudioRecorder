@@ -32,8 +32,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-
 public class RecordFragment extends Fragment{
+
 
     private MainActivity activity;
 
@@ -55,8 +55,6 @@ public class RecordFragment extends Fragment{
     private int mRecordPromptCount = 0;
 
     private boolean mStartRecording = false;
-
-
 
 
     public static RecordFragment newInstance() {
@@ -87,21 +85,21 @@ public class RecordFragment extends Fragment{
         mStartRecording = !mStartRecording;
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.RECORD_AUDIO)
                 != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(activity, new String[] { Manifest.permission.RECORD_AUDIO },
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.RECORD_AUDIO},
                     10);
         } else {
             onRecord(mStartRecording);
         }
-
     }
 
-    @Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                                     @NonNull int[] grantResults) {
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 10) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 onRecord(mStartRecording);
-            }else{
+            } else {
                 //User denied Permission.
             }
         }
@@ -110,7 +108,7 @@ public class RecordFragment extends Fragment{
 
     // Recording Start/Stop
     //TODO: recording pause
-    private void onRecord(boolean start){
+    private void onRecord(boolean start) {
 
         Intent intent = new Intent(getActivity(), RecordingService.class);
 
@@ -118,7 +116,7 @@ public class RecordFragment extends Fragment{
             // start recording
             mRecordButton.setImageResource(R.mipmap.ic_media_stop);
             //mPauseButton.setVisibility(View.VISIBLE);
-            Toast.makeText(getActivity(),R.string.toast_recording_start,Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.toast_recording_start, Toast.LENGTH_SHORT).show();
             File folder = new File(Environment.getExternalStorageDirectory() + "/SoundRecorder");
             if (!folder.exists()) {
                 //folder /SoundRecorder doesn't exist, create the folder
@@ -164,7 +162,8 @@ public class RecordFragment extends Fragment{
         }
     }
 
-
-
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 }

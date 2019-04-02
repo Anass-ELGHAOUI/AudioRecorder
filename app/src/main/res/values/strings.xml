@@ -12,4 +12,5 @@
     <string name="notification_recording">Recording...</string>
     <string name="direction_image">direction image</string>
     <string name="mode_selection">mode selection</string>
+    <string name="new_record">New Record</string>
 </resources>

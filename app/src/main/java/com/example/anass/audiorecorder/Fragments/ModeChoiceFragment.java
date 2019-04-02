@@ -90,7 +90,7 @@ public class ModeChoiceFragment extends Fragment{
                             || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                         Log.e("TTS", "Language not supported");
                     } else {
-                        textToSpeechConverter("Acceuil. Pour l'utilisation de mode voyant glissez gauche sinon glissez droite.");
+                        textToSpeechConverter("Acceuil. Pour l'utilisation de mode normal glisser vers la gauche sinon glisser vers la droite.");
                     }
                 } else {
                     Log.e("TTS", "Initialization failed");
@@ -121,11 +121,12 @@ public class ModeChoiceFragment extends Fragment{
     }
 
     @Override
-    public void onDestroyView() {
+    public void onDestroy() {
+        super.onDestroy();
         if (mTTS != null) {
             mTTS.stop();
             mTTS.shutdown();
         }
-        super.onDestroyView();
     }
+
 }
