@@ -110,6 +110,10 @@ public class NVRecordFragment extends Fragment {
     private void swipeConfiguration(){
         imageView.setOnTouchListener(new OnSwipeTouchListener(activity) {
             public void onSwipeTop() {
+                if (mTTS.isSpeaking()) {
+                    mTTS.stop();
+                    //mTTS.shutdown();
+                }
                 if (!mStartRecording) {
                     mStartRecording = !mStartRecording;
                     onRecord(mStartRecording);
@@ -139,8 +143,8 @@ public class NVRecordFragment extends Fragment {
                 if (mStartRecording) {
                     mStartRecording = !mStartRecording;
                     onRecord(mStartRecording);
+                    speak("Record enregistrer avec succés");
                 }
-
             }
 
         });
@@ -167,8 +171,6 @@ public class NVRecordFragment extends Fragment {
             getActivity().stopService(intent);
             //allow the screen to turn off again once recording is finished
             getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-            speak("Record enregistrer avec succés");
-            getInstructions();
         }
     }
 
