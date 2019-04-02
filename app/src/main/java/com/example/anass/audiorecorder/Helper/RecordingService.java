@@ -11,6 +11,7 @@ import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
+
 import com.example.anass.audiorecorder.MainActivity;
 import com.example.anass.audiorecorder.R;
 
@@ -20,6 +21,8 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static com.example.anass.audiorecorder.App.CHANNEL_ID;
 
 /**
  * Created by Anass on 16/03/2019.
@@ -163,7 +166,18 @@ public class RecordingService extends Service {
 
     //TODO:
     private Notification createNotification() {
-        NotificationCompat.Builder mBuilder =
+        Intent mIntent = new Intent(getApplicationContext(), MainActivity.class);
+        PendingIntent mPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, mIntent, 0);
+        mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        Notification mNotification = new  NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
+                .setSmallIcon(R.mipmap.ic_mic_white_36dp)
+                .setContentTitle(getString(R.string.notification_recording))
+                .setContentText(mTimerFormat.format(mElapsedSeconds * 1000))
+                .setOngoing(true)
+                .setContentIntent(mPendingIntent)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .build();
+        /*NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(getApplicationContext())
                         .setSmallIcon(R.mipmap.ic_mic_white_36dp)
                         .setContentTitle(getString(R.string.notification_recording))
@@ -173,6 +187,7 @@ public class RecordingService extends Service {
         mBuilder.setContentIntent(PendingIntent.getActivities(getApplicationContext(), 0,
                 new Intent[]{new Intent(getApplicationContext(), MainActivity.class)}, 0));
 
-        return mBuilder.build();
+        return mBuilder.build();*/
+       return mNotification;
     }
 }

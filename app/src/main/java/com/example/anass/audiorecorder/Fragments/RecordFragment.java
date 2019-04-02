@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.SystemClock;
@@ -28,40 +27,37 @@ import com.example.anass.audiorecorder.R;
 import com.melnykov.fab.FloatingActionButton;
 
 import java.io.File;
-import java.io.IOException;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
-import static com.github.mikephil.charting.charts.Chart.LOG_TAG;
 
-
-public class RecordFragment extends Fragment{
+public class RecordFragment extends Fragment {
 
     private MainActivity activity;
 
-    @Bind(R.id.btn_menu)
+    @BindView(R.id.btn_menu)
     public ImageButton btnMenu;
 
-    @Bind(R.id.btnRecord)
+    @BindView(R.id.btnRecord)
     public FloatingActionButton mRecordButton;
 
-    @Bind(R.id.chronometer)
+    @BindView(R.id.chronometer)
     public Chronometer mChronometer;
 
-    @Bind(R.id.recordProgressBar)
+    @BindView(R.id.recordProgressBar)
     public ProgressBar recordProgressBar;
 
-    @Bind(R.id.recording_status_text)
+    @BindView(R.id.recording_status_text)
     public TextView mRecordingPrompt;
 
     private int mRecordPromptCount = 0;
 
     private boolean mStartRecording = false;
 
-
-
+    private Unbinder unbinder;
 
     public static RecordFragment newInstance() {
         RecordFragment fragment = new RecordFragment();
@@ -75,7 +71,7 @@ public class RecordFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.record_fragment, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         return view;
     }
 
@@ -91,21 +87,21 @@ public class RecordFragment extends Fragment{
         mStartRecording = !mStartRecording;
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.RECORD_AUDIO)
                 != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(activity, new String[] { Manifest.permission.RECORD_AUDIO },
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.RECORD_AUDIO},
                     10);
         } else {
             onRecord(mStartRecording);
         }
-
     }
 
-    @Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                                     @NonNull int[] grantResults) {
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 10) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 onRecord(mStartRecording);
-            }else{
+            } else {
                 //User denied Permission.
             }
         }
@@ -114,7 +110,7 @@ public class RecordFragment extends Fragment{
 
     // Recording Start/Stop
     //TODO: recording pause
-    private void onRecord(boolean start){
+    private void onRecord(boolean start) {
 
         Intent intent = new Intent(getActivity(), RecordingService.class);
 
@@ -122,7 +118,7 @@ public class RecordFragment extends Fragment{
             // start recording
             mRecordButton.setImageResource(R.mipmap.ic_media_stop);
             //mPauseButton.setVisibility(View.VISIBLE);
-            Toast.makeText(getActivity(),R.string.toast_recording_start,Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.toast_recording_start, Toast.LENGTH_SHORT).show();
             File folder = new File(Environment.getExternalStorageDirectory() + "/SoundRecorder");
             if (!folder.exists()) {
                 //folder /SoundRecorder doesn't exist, create the folder
@@ -168,7 +164,9 @@ public class RecordFragment extends Fragment{
         }
     }
 
-
-
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
+    }
 }

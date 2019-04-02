@@ -10,4 +10,6 @@
 
     <!-- Notifications -->
     <string name="notification_recording">Recording...</string>
+
+    <string name="new_record">New Record</string>
 </resources>
