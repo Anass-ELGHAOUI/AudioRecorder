@@ -81,7 +81,7 @@ public class NVChoiceFragment extends Fragment{
                     mTTS.stop();
                     mTTS.shutdown();
                 }
-                textToSpeechConverter("pour enregistrer un nouveau record glisser vers la gauche, pour consulter la liste des enregistrements glisser vers le haut. Pour revenir glisser vers la droite.  glisser vers le bas pour écouter pour écouter le consigne ");
+                textToSpeechConverter("pour un nouveau record glisser vers la gauche, pour consulter la liste des enregistrements glisser vers le haut. Pour revenir glisser vers la droite.  glisser vers le bas pour écouter pour écouter le consigne ");
             }
 
         });

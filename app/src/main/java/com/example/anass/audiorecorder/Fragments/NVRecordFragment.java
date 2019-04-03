@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.example.anass.audiorecorder.Activities.MainActivity;
 import com.example.anass.audiorecorder.Helper.OnSwipeTouchListener;
 import com.example.anass.audiorecorder.Helper.RecordingService;
-import com.example.anass.audiorecorder.Helper.Utils;
 import com.example.anass.audiorecorder.R;
 
 import java.io.File;
@@ -26,8 +25,6 @@ import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnLongClick;
-
 
 public class NVRecordFragment extends Fragment {
 
@@ -107,7 +104,7 @@ public class NVRecordFragment extends Fragment {
                 " vers la droite pour revenir au menu précédent, vers la gauche pour écouter les consignes");
     }
 
-    private void swipeConfiguration(){
+    private void swipeConfiguration() {
         imageView.setOnTouchListener(new OnSwipeTouchListener(activity) {
             public void onSwipeTop() {
                 if (mTTS.isSpeaking()) {
@@ -120,6 +117,7 @@ public class NVRecordFragment extends Fragment {
                 }
 
             }
+
             public void onSwipeRight() {
                 if (mTTS.isSpeaking()) {
                     mTTS.stop();
@@ -129,6 +127,7 @@ public class NVRecordFragment extends Fragment {
                     activity.onBackPressed();
                 }
             }
+
             public void onSwipeLeft() {
                 if (mTTS.isSpeaking()) {
                     mTTS.stop();
@@ -139,6 +138,7 @@ public class NVRecordFragment extends Fragment {
                 }
 
             }
+
             public void onSwipeBottom() {
                 if (mStartRecording) {
                     mStartRecording = !mStartRecording;

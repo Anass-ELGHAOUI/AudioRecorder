@@ -1,44 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <RelativeLayout
-        android:orientation="horizontal"
         android:id="@+id/top_bar"
+        style="@style/action_bar_style"
         android:layout_width="match_parent"
-        style="@style/action_bar_style">
+        android:orientation="horizontal">
 
         <TextView
+            style="@style/actionbar_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/mode_selection"
             android:layout_marginStart="36dp"
-            android:maxLines="1"
             android:layout_marginEnd="36dp"
-            style="@style/actionbar_title" />
+            android:maxLines="1"
+            android:text="@string/mode_selection" />
 
     </RelativeLayout>
-    
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:gravity="center"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:gravity="center">
 
         <ImageView
             android:id="@+id/iv_choice"
             android:layout_width="300dp"
             android:layout_height="300dp"
+            android:layout_gravity="center"
             android:background="@null"
-            android:src="@drawable/ic_choice"
             android:contentDescription="@string/direction_image"
-            android:layout_gravity="center"/>
-        
+            android:src="@drawable/ic_choice" />
+
     </LinearLayout>
 
-   
+
 </LinearLayout>

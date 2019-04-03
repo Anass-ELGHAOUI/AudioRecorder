@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.anass.audiorecorder.Activities.MainActivity;
 import com.example.anass.audiorecorder.Helper.OnSwipeTouchListener;
@@ -25,7 +24,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnLongClick;
 
-public class ModeChoiceFragment extends Fragment{
+public class ModeChoiceFragment extends Fragment {
 
     @Bind(R.id.iv_choice)
     public ImageView ivChoice;
@@ -57,16 +56,17 @@ public class ModeChoiceFragment extends Fragment{
         init();
     }
 
-    public void init(){
+    public void init() {
         textToSpeechConfiguration();
         swipeConfiguration();
     }
 
-    private void swipeConfiguration(){
+    private void swipeConfiguration() {
         ivChoice.setOnTouchListener(new OnSwipeTouchListener(activity) {
             public void onSwipeTop() {
-                Utils.makeToast(activity,"top");
+                Utils.makeToast(activity, "top");
             }
+
             public void onSwipeRight() {
                 activity.navigateTo(NVChoiceFragment.newInstance());
                 if (mTTS.isSpeaking()) {
@@ -74,9 +74,15 @@ public class ModeChoiceFragment extends Fragment{
                     mTTS.shutdown();
                 }
             }
+
             public void onSwipeLeft() {
-                Utils.makeToast(activity,"left");
+                activity.navigateTo(RecordFragment.newInstance());
+                if (mTTS.isSpeaking()) {
+                    mTTS.stop();
+                    mTTS.shutdown();
+                }
             }
+
             public void onSwipeBottom() {
                 if (mTTS.isSpeaking()) {
                     mTTS.stop();
@@ -88,7 +94,7 @@ public class ModeChoiceFragment extends Fragment{
         });
     }
 
-    private void textToSpeechConfiguration(){
+    private void textToSpeechConfiguration() {
         mTTS = new TextToSpeech(activity, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -125,13 +131,14 @@ public class ModeChoiceFragment extends Fragment{
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void ttsGreater21(String text) {
-        String utteranceId=this.hashCode() + "";
+        String utteranceId = this.hashCode() + "";
         mTTS.speak(text, TextToSpeech.QUEUE_FLUSH, null, utteranceId);
     }
 
     @OnLongClick(R.id.iv_choice)
-    public boolean onReplay(){
-        textToSpeechConverter("Acceuil. Pour l'utilisation de mode normal glisser vers la gauche sinon glisser vers la droite. pour quitter glissez vers la bas.  Appuyer longtemps pour écouter le consigne ");
+    public boolean onReplay() {
+        textToSpeechConverter("Acceuil. Pour l'utilisation de mode normal glisser vers la gauche sinon glisser vers la droite. " +
+                "Pour quitter glissez vers la bas.  Appuyer longtemps pour écouter les consignes ");
         return true;
     }
 

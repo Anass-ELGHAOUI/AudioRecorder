@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_filter_date"
+        android:id="@+id/action_settings"
         android:orderInCategory="100"
-        android:title="" />
-    <item
-        android:id="@+id/action_filter_customer"
-        android:orderInCategory="101"
-        android:title="" />
-    <item
-        android:id="@+id/action_filter_payment"
-        android:orderInCategory="102"
-        android:title="" />
+        android:title="@string/settings" />
+
 </menu>
