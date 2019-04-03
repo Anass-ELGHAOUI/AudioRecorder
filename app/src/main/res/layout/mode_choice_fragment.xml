@@ -21,6 +21,11 @@
             android:maxLines="1"
             android:text="@string/mode_selection" />
 
+        <!-- Btn menu -->
+        <ImageButton
+            android:id="@+id/btn_menu"
+            style="@style/actionbar_settings_buttons" />
+
     </RelativeLayout>
 
     <LinearLayout
@@ -33,9 +38,9 @@
             android:layout_width="300dp"
             android:layout_height="300dp"
             android:layout_gravity="center"
-            android:background="@null"
             android:contentDescription="@string/direction_image"
-            android:src="@drawable/ic_choice" />
+            android:tint="@color/grey_dark"
+            android:src="@drawable/ic_footprint" />
 
     </LinearLayout>
 
