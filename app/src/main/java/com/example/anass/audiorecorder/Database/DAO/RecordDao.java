@@ -1,11 +1,10 @@
-package com.example.anass.audiorecorder.DB.DAO;
+package com.example.anass.audiorecorder.Database.DAO;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
-
-import com.example.anass.audiorecorder.Entities.RecordingItem;
+import com.example.anass.audiorecorder.Models.RecordingItem;
 
 import java.util.List;
 

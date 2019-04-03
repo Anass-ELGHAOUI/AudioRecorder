@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/mode_selection"
+            android:text="@string/action_selection"
             android:layout_marginStart="36dp"
             android:maxLines="1"
             android:layout_marginEnd="36dp"
@@ -33,8 +33,8 @@
             android:id="@+id/iv_nv_choice"
             android:layout_width="300dp"
             android:layout_height="300dp"
-            android:background="@null"
-            android:src="@drawable/ic_choice"
+            android:tint="@color/grey_dark"
+            android:src="@drawable/ic_footprint"
             android:contentDescription="@string/direction_image"
             android:layout_gravity="center"/>
 

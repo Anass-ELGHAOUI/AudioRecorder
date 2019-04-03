@@ -1,4 +1,4 @@
-package com.example.anass.audiorecorder.Entities;
+package com.example.anass.audiorecorder.Models;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
