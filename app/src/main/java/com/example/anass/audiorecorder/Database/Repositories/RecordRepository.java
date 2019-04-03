@@ -15,7 +15,7 @@ public class RecordRepository {
     private RecordDao mRecordDao;
     List<RecordingItem> mRecordingItems;
 
-    public  RecordRepository(Application application) {
+    public RecordRepository(Application application) {
         DataBase database = DataBase.getInstance(application);
         mRecordDao = database.recordDao();
     }
@@ -26,6 +26,10 @@ public class RecordRepository {
 
     public void addRecord(RecordingItem mRecordingItem) {
         new addRecordAsyncTask(mRecordDao).execute(mRecordingItem);
+    }
+
+    public void deleteAllRecords() {
+        new deleteRecordsAsyncTask(mRecordDao).execute();
     }
 
     private static class addRecordAsyncTask extends AsyncTask<RecordingItem, Void, Void> {
@@ -67,6 +71,20 @@ public class RecordRepository {
 
         public List<RecordingItem> getRecords() {
             return mRecordsTask;
+        }
+    }
+
+    private static class deleteRecordsAsyncTask extends AsyncTask<Void, Void, Void> {
+        private RecordDao mRecordDao;
+
+        private deleteRecordsAsyncTask(RecordDao mRecordDao) {
+            this.mRecordDao = mRecordDao;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            mRecordDao.deleteAllRecords();
+            return null;
         }
     }
 }
