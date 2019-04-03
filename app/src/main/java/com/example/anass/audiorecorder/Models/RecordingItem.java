@@ -12,7 +12,6 @@ public class RecordingItem implements Comparable<RecordingItem>{
     @PrimaryKey(autoGenerate = true)
     private int mId;
 
-
     @ColumnInfo(name = "record_name")
     private String mName;
 
@@ -24,6 +23,10 @@ public class RecordingItem implements Comparable<RecordingItem>{
 
     @ColumnInfo(name = "record_time")
     private long mTime;
+
+    public RecordingItem() {
+
+    }
 
     public RecordingItem(String Name, String FilePath, int Length, long Time) {
         this.mName = Name;
@@ -50,6 +53,26 @@ public class RecordingItem implements Comparable<RecordingItem>{
 
     public long getTime() {
         return mTime;
+    }
+
+    public void setId(int mId) {
+        this.mId = mId;
+    }
+
+    public void setName(String mName) {
+        this.mName = mName;
+    }
+
+    public void setFilePath(String mFilePath) {
+        this.mFilePath = mFilePath;
+    }
+
+    public void setLength(int mLength) {
+        this.mLength = mLength;
+    }
+
+    public void setTime(long mTime) {
+        this.mTime = mTime;
     }
 
     @Override

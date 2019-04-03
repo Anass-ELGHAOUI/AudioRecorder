@@ -1,12 +1,12 @@
-package com.example.anass.audiorecorder.DB.Repositories;
+package com.example.anass.audiorecorder.Database.Repositories;
 
 import android.app.Application;
 import android.os.AsyncTask;
 
-import com.example.anass.audiorecorder.DB.DAO.RecordDao;
-import com.example.anass.audiorecorder.DB.DataBase;
-import com.example.anass.audiorecorder.Entities.RecordingItem;
+import com.example.anass.audiorecorder.Database.DAO.RecordDao;
+import com.example.anass.audiorecorder.Database.DataBase;
 import com.example.anass.audiorecorder.Helper.OnLoadCompleted;
+import com.example.anass.audiorecorder.Models.RecordingItem;
 
 import java.util.List;
 
