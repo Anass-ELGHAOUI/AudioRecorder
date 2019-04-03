@@ -21,4 +21,6 @@ public interface RecordDao {
     @Query("SELECT * FROM records_table")
     List<RecordingItem> getRecords();
 
+    @Query("DELETE  FROM records_table")
+    void deleteAllRecords();
 }
