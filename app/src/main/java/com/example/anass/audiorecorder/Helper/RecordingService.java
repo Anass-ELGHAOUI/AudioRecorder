@@ -12,6 +12,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 import com.example.anass.audiorecorder.Activities.MainActivity;
+import com.example.anass.audiorecorder.Database.Repositories.RecordRepository;
 import com.example.anass.audiorecorder.R;
 import java.io.File;
 import java.io.IOException;
@@ -45,6 +46,8 @@ public class RecordingService extends Service {
     private Timer mTimer = null;
     private TimerTask mIncrementTimerTask = null;
 
+    private RecordRepository mRecordRepository;
+
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -57,6 +60,7 @@ public class RecordingService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        mRecordRepository = new RecordRepository(getApplication());
        // mDatabase = new DBHelper(getApplicationContext());
     }
 
@@ -132,7 +136,6 @@ public class RecordingService extends Service {
                 mIncrementTimerTask.cancel();
                 mIncrementTimerTask = null;
             }
-
             mRecorder = null;
         }catch(RuntimeException stopException){
             //handle cleanup here

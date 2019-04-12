@@ -5,80 +5,40 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-@Entity(tableName = "records_table")
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity(tableName = "records_table") @Data @NoArgsConstructor @AllArgsConstructor
 public class RecordingItem implements Comparable<RecordingItem>{
 
     @NonNull
     @PrimaryKey(autoGenerate = true)
-    private int mId;
+    private int id;
 
     @ColumnInfo(name = "record_name")
-    private String mName;
+    private String name;
 
     @ColumnInfo(name = "record_path")
-    private String mFilePath;
+    private String filePath;
 
     @ColumnInfo(name = "record_length")
-    private int mLength;
+    private int length;
 
     @ColumnInfo(name = "record_time")
-    private long mTime;
-
-    public RecordingItem() {
-
-    }
+    private long time;
 
     public RecordingItem(String Name, String FilePath, int Length, long Time) {
-        this.mName = Name;
-        this.mFilePath = FilePath;
-        this.mLength = Length;
-        this.mTime = Time;
-    }
-
-    public int getId() {
-        return mId;
-    }
-
-    public String getName() {
-        return mName;
-    }
-
-    public String getFilePath() {
-        return mFilePath;
-    }
-
-    public int getLength() {
-        return mLength;
-    }
-
-    public long getTime() {
-        return mTime;
-    }
-
-    public void setId(int mId) {
-        this.mId = mId;
-    }
-
-    public void setName(String mName) {
-        this.mName = mName;
-    }
-
-    public void setFilePath(String mFilePath) {
-        this.mFilePath = mFilePath;
-    }
-
-    public void setLength(int mLength) {
-        this.mLength = mLength;
-    }
-
-    public void setTime(long mTime) {
-        this.mTime = mTime;
+        this.name = Name;
+        this.filePath = FilePath;
+        this.length = Length;
+        this.time = Time;
     }
 
     @Override
     public int compareTo(@NonNull RecordingItem o) {
-        if(this.mName != null)
-            return this.mName.toLowerCase().compareTo(o.getName().toLowerCase());
+        if(this.name != null)
+            return this.name.toLowerCase().compareTo(o.getName().toLowerCase());
         else
             throw new IllegalArgumentException();
     }

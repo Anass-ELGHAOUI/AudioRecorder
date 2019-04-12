@@ -65,6 +65,29 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" />
 
+        <com.melnykov.fab.FloatingActionButton
+            android:id="@+id/btnStratEvaluation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="@color/blue"
+            android:layout_marginTop="128dp"
+            android:layout_below="@id/recordProgressBar"
+            android:layout_alignParentLeft="true"
+            android:layout_marginStart="@dimen/fab_size_normal"
+            android:src="@drawable/ic_chevron_left_black_24dp" />
+
+        <com.melnykov.fab.FloatingActionButton
+            android:id="@+id/btnStopEvaluation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="@color/blue"
+            android:layout_marginTop="128dp"
+            android:layout_below="@id/recordProgressBar"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="@dimen/fab_size_normal"
+            android:src="@drawable/ic_chevron_right_black_24dp" />
+
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

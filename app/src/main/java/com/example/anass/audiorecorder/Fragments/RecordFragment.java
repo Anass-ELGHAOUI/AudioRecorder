@@ -21,6 +21,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.anass.audiorecorder.Database.Repositories.RecordRepository;
+import com.example.anass.audiorecorder.Helper.OnLoadCompleted;
 import com.example.anass.audiorecorder.Helper.RecordingService;
 import com.example.anass.audiorecorder.Activities.MainActivity;
 import com.example.anass.audiorecorder.R;
@@ -32,8 +34,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class RecordFragment extends Fragment{
-
+public class RecordFragment extends Fragment implements OnLoadCompleted {
 
     private MainActivity activity;
 
@@ -56,6 +57,7 @@ public class RecordFragment extends Fragment{
 
     private boolean mStartRecording = false;
 
+    RecordRepository mRecordRepository;
 
     public static RecordFragment newInstance() {
         RecordFragment fragment = new RecordFragment();
@@ -78,6 +80,7 @@ public class RecordFragment extends Fragment{
         super.onViewCreated(view, savedInstanceState);
         Log.i("login activity ", "login lanched");
         activity = (MainActivity) getActivity();
+        mRecordRepository = new RecordRepository(activity.getApplication());
     }
 
     @OnClick(R.id.btnRecord)
@@ -165,5 +168,10 @@ public class RecordFragment extends Fragment{
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public void OnLoadCompleted() {
+
     }
 }
