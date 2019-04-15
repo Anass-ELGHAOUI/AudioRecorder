@@ -2,6 +2,7 @@ package com.example.anass.audiorecorder.Database.Repositories;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.example.anass.audiorecorder.Database.DAO.RecordDao;
 import com.example.anass.audiorecorder.Database.DataBase;
@@ -42,6 +43,7 @@ public class RecordRepository {
         @Override
         protected Void doInBackground(RecordingItem... recordingItems) {
             mRecordDao.addRecord(recordingItems[0]);
+            Log.i("ADDED", recordingItems[0].getFilePath());
             return null;
         }
     }

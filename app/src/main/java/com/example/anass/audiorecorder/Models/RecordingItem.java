@@ -5,14 +5,12 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(tableName = "records_table") @Data @NoArgsConstructor @AllArgsConstructor
+@Entity(tableName = "records_table") @Data @NoArgsConstructor
 public class RecordingItem implements Comparable<RecordingItem>{
 
-    @NonNull
     @PrimaryKey(autoGenerate = true)
     private int id;
 
@@ -23,17 +21,18 @@ public class RecordingItem implements Comparable<RecordingItem>{
     private String filePath;
 
     @ColumnInfo(name = "record_length")
-    private int length;
+    private long length;
 
-    @ColumnInfo(name = "record_time")
-    private long time;
+    //@ColumnInfo(name = "record_time")
+    //private long time;
 
-    public RecordingItem(String Name, String FilePath, int Length, long Time) {
+    public RecordingItem(String Name, String FilePath, long Length) {
         this.name = Name;
         this.filePath = FilePath;
         this.length = Length;
-        this.time = Time;
+        //this.time = Time;
     }
+
 
     @Override
     public int compareTo(@NonNull RecordingItem o) {

@@ -13,20 +13,24 @@ import android.util.Log;
 import android.widget.Toast;
 import com.example.anass.audiorecorder.Activities.MainActivity;
 import com.example.anass.audiorecorder.Database.Repositories.RecordRepository;
+import com.example.anass.audiorecorder.Models.RecordingItem;
 import com.example.anass.audiorecorder.R;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import lombok.Setter;
 
 import static com.example.anass.audiorecorder.App.CHANNEL_ID;
 
 /**
  * Created by Anass on 16/03/2019.
  */
-public class RecordingService extends Service {
+public class RecordingService extends Service implements OnLoadCompleted{
 
     private static final String LOG_TAG = "RecordingService";
 
@@ -34,8 +38,6 @@ public class RecordingService extends Service {
     private String mFilePath = null;
 
     private MediaRecorder mRecorder = null;
-
-   // private DBHelper mDatabase;
 
     private long mStartingTimeMillis = 0;
     private long mElapsedMillis = 0;
@@ -48,9 +50,18 @@ public class RecordingService extends Service {
 
     private RecordRepository mRecordRepository;
 
+    private RecordRepository.getRecordsAsyncTask getRecordsAsyncTask;
+
     @Override
     public IBinder onBind(Intent intent) {
         return null;
+    }
+
+    @Override
+    public void OnLoadCompleted() {
+        List<RecordingItem> list = getRecordsAsyncTask.getRecords();
+        Log.i("NumberOfRecords", String.valueOf(getRecordsAsyncTask.getRecords().size()));
+
     }
 
     public interface OnTimerChangedListener {
@@ -60,6 +71,7 @@ public class RecordingService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        mRecordRepository = new RecordRepository(getApplication());
         mRecordRepository = new RecordRepository(getApplication());
        // mDatabase = new DBHelper(getApplicationContext());
     }
@@ -103,7 +115,7 @@ public class RecordingService extends Service {
             mStartingTimeMillis = System.currentTimeMillis();
 
             //startTimer();
-            //startForeground(1, createNotification());
+            startForeground(1, createNotification());
 
         } catch (IOException e) {
             Log.e(LOG_TAG, "prepare() failed");
@@ -144,7 +156,9 @@ public class RecordingService extends Service {
 
         try {
             //mDatabase.addRecording(mFileName, mFilePath, mElapsedMillis);
-
+            mRecordRepository.addRecord(new RecordingItem(mFileName, mFilePath, mElapsedMillis));
+            getRecordsAsyncTask = new RecordRepository.getRecordsAsyncTask(mRecordRepository.getRecordDao(), this);
+            getRecordsAsyncTask.execute();
         } catch (Exception e){
             Log.e(LOG_TAG, "exception", e);
         }

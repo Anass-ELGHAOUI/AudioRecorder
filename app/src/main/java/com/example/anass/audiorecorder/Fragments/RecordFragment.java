@@ -21,10 +21,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.anass.audiorecorder.Database.Repositories.RecordRepository;
+import com.example.anass.audiorecorder.Activities.MainActivity;
 import com.example.anass.audiorecorder.Helper.OnLoadCompleted;
 import com.example.anass.audiorecorder.Helper.RecordingService;
-import com.example.anass.audiorecorder.Activities.MainActivity;
 import com.example.anass.audiorecorder.R;
 import com.melnykov.fab.FloatingActionButton;
 
@@ -57,8 +56,6 @@ public class RecordFragment extends Fragment implements OnLoadCompleted {
 
     private boolean mStartRecording = false;
 
-    RecordRepository mRecordRepository;
-
     public static RecordFragment newInstance() {
         RecordFragment fragment = new RecordFragment();
         Bundle args = new Bundle();
@@ -78,9 +75,8 @@ public class RecordFragment extends Fragment implements OnLoadCompleted {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.i("login activity ", "login lanched");
+        Log.i("login activity ", "login lunched");
         activity = (MainActivity) getActivity();
-        mRecordRepository = new RecordRepository(activity.getApplication());
     }
 
     @OnClick(R.id.btnRecord)
