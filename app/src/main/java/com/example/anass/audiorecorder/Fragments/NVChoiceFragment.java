@@ -64,7 +64,7 @@ public class NVChoiceFragment extends Fragment{
     private void swipeConfiguration(){
         ivChoice.setOnTouchListener(new OnSwipeTouchListener(activity) {
             public void onSwipeTop() {
-                Utils.makeToast(activity,"top");
+                activity.navigateTo(RecordsListFragment.newInstance());
             }
             public void onSwipeRight() {
                 activity.onBackPressed();
