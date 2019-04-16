@@ -11,10 +11,12 @@ import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
+
 import com.example.anass.audiorecorder.Activities.MainActivity;
 import com.example.anass.audiorecorder.Database.Repositories.RecordRepository;
 import com.example.anass.audiorecorder.Models.RecordingItem;
 import com.example.anass.audiorecorder.R;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -22,8 +24,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import lombok.Setter;
 
 import static com.example.anass.audiorecorder.App.CHANNEL_ID;
 
@@ -102,7 +102,9 @@ public class RecordingService extends Service implements OnLoadCompleted{
         mRecorder.setOutputFile(mFilePath);
         mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
         mRecorder.setAudioSamplingRate(44100);
-        //mRecorder.setAudioChannels(1);
+        mRecorder.setAudioEncodingBitRate(192000);
+        mRecorder.setAudioSource(MediaRecorder.AudioSource.VOICE_RECOGNITION) ;
+        mRecorder.setAudioChannels(1);
 
        /* if (MySharedPreferences.getPrefHighQuality(this)) {
             mRecorder.setAudioSamplingRate(44100);
@@ -115,7 +117,7 @@ public class RecordingService extends Service implements OnLoadCompleted{
             mStartingTimeMillis = System.currentTimeMillis();
 
             //startTimer();
-            startForeground(1, createNotification());
+            //startForeground(1, createNotification());
 
         } catch (IOException e) {
             Log.e(LOG_TAG, "prepare() failed");
@@ -189,6 +191,7 @@ public class RecordingService extends Service implements OnLoadCompleted{
                 .setContentTitle(getString(R.string.notification_recording))
                 .setContentText(mTimerFormat.format(mElapsedSeconds * 1000))
                 .setOngoing(true)
+                .setChannelId(CHANNEL_ID)
                 .setContentIntent(mPendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .build();
