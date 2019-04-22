@@ -58,7 +58,11 @@ public class RecordingService extends Service implements OnLoadCompleted{
 
     private RecordRepository.getRecordsAsyncTask getRecordsAsyncTask;
 
+    private RecordRepository.getLastIdAsyncTask getLastIdAsyncTask;
+
     private ImportantRecord mImportantRecord;
+
+    int mLastId;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -81,6 +85,8 @@ public class RecordingService extends Service implements OnLoadCompleted{
         super.onCreate();
         mRecordRepository = new RecordRepository(getApplication());
         mImportantRecordRepository = new ImportantRecordRepository(getApplication());
+        getLastIdAsyncTask = new RecordRepository.getLastIdAsyncTask(mRecordRepository.getRecordDao(), this);
+        getLastIdAsyncTask.execute();
        // mDatabase = new DBHelper(getApplicationContext());
     }
 
@@ -155,7 +161,8 @@ public class RecordingService extends Service implements OnLoadCompleted{
     @OnClick(R.id.btnStopEvaluation)
     public void StopImprtantRecord() {
         mImportantRecord.setStopTime(System.currentTimeMillis());
-        mImportantRecord.setRecordId(1);
+        mImportantRecord.setRecordId(mLastId + 1);
+        mImportantRecordRepository.addImportantRecord(mImportantRecord);
     }
 
     public void stopRecording() {
