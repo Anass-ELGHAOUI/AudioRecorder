@@ -22,8 +22,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.anass.audiorecorder.Activities.MainActivity;
+import com.example.anass.audiorecorder.Database.Repositories.ImportantRecordRepository;
+import com.example.anass.audiorecorder.Database.Repositories.RecordRepository;
 import com.example.anass.audiorecorder.Helper.OnLoadCompleted;
 import com.example.anass.audiorecorder.Helper.RecordingService;
+import com.example.anass.audiorecorder.Models.ImportantRecord;
 import com.example.anass.audiorecorder.R;
 import com.melnykov.fab.FloatingActionButton;
 
@@ -36,6 +39,12 @@ import butterknife.OnClick;
 public class RecordFragment extends Fragment implements OnLoadCompleted {
 
     private MainActivity activity;
+
+    RecordRepository mRecordRepository;
+
+    ImportantRecordRepository mImportantRecordRepository;
+
+    ImportantRecord mImportantRecord;
 
     @Bind(R.id.btn_menu)
     public ImageButton btnMenu;
@@ -69,6 +78,8 @@ public class RecordFragment extends Fragment implements OnLoadCompleted {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.record_fragment, container, false);
         ButterKnife.bind(this, view);
+        mRecordRepository = new RecordRepository(getActivity().getApplication());
+        mImportantRecordRepository = new ImportantRecordRepository(getActivity().getApplication());
         return view;
     }
 
@@ -89,6 +100,22 @@ public class RecordFragment extends Fragment implements OnLoadCompleted {
         } else {
             onRecord(mStartRecording);
         }
+    }
+
+    @OnClick(R.id.btnStratEvaluation)
+    public void StartImprtantRecord() {
+        mImportantRecord = new ImportantRecord();
+        mImportantRecord.setStartTime(System.currentTimeMillis());
+        Log.i("Imp Rec Started", String.valueOf(mRecordRepository.getLastID()));
+    }
+
+    @OnClick(R.id.btnStopEvaluation)
+    public void StopImprtantRecord() {
+        mImportantRecord.setStopTime(System.currentTimeMillis());
+        Log.i("Last ID", String.valueOf(mRecordRepository.getLastID()));
+        mImportantRecord.setRecordId(mRecordRepository.getLastID() + 1);
+        mImportantRecordRepository.addImportantRecord(mImportantRecord);
+        Log.i("STOP IMPORTANT RECORD", System.currentTimeMillis() + " ");
     }
 
     @Override
