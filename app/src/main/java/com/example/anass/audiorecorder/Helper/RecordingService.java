@@ -13,7 +13,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.anass.audiorecorder.Activities.MainActivity;
+import com.example.anass.audiorecorder.Database.Repositories.ImportantRecordRepository;
 import com.example.anass.audiorecorder.Database.Repositories.RecordRepository;
+import com.example.anass.audiorecorder.Models.ImportantRecord;
 import com.example.anass.audiorecorder.Models.RecordingItem;
 import com.example.anass.audiorecorder.R;
 
@@ -24,6 +26,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import butterknife.OnClick;
 
 import static com.example.anass.audiorecorder.App.CHANNEL_ID;
 
@@ -50,7 +54,11 @@ public class RecordingService extends Service implements OnLoadCompleted{
 
     private RecordRepository mRecordRepository;
 
+    private ImportantRecordRepository mImportantRecordRepository;
+
     private RecordRepository.getRecordsAsyncTask getRecordsAsyncTask;
+
+    private ImportantRecord mImportantRecord;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -72,7 +80,7 @@ public class RecordingService extends Service implements OnLoadCompleted{
     public void onCreate() {
         super.onCreate();
         mRecordRepository = new RecordRepository(getApplication());
-        mRecordRepository = new RecordRepository(getApplication());
+        mImportantRecordRepository = new ImportantRecordRepository(getApplication());
        // mDatabase = new DBHelper(getApplicationContext());
     }
 
@@ -103,7 +111,7 @@ public class RecordingService extends Service implements OnLoadCompleted{
         mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
         mRecorder.setAudioSamplingRate(44100);
         mRecorder.setAudioEncodingBitRate(192000);
-        mRecorder.setAudioSource(MediaRecorder.AudioSource.VOICE_RECOGNITION) ;
+        //mRecorder.setAudioSource(MediaRecorder.AudioSource.VOICE_RECOGNITION) ;
         mRecorder.setAudioChannels(1);
 
        /* if (MySharedPreferences.getPrefHighQuality(this)) {
@@ -131,10 +139,23 @@ public class RecordingService extends Service implements OnLoadCompleted{
         do{
             count++;
             mFilePath = getExternalCacheDir().getAbsolutePath();
-            mFilePath += "/audiorecordtest"+count+".mp3";
+            mFileName = "Audio"+count;
+            mFilePath += "/"+mFileName+".mp3";
             f = new File(mFilePath);
         }while (f.exists() && !f.isDirectory());
 
+    }
+
+    @OnClick(R.id.btnStratEvaluation)
+    public void StartImprtantRecord() {
+        mImportantRecord = new ImportantRecord();
+        mImportantRecord.setStartTime(System.currentTimeMillis());
+    }
+
+    @OnClick(R.id.btnStopEvaluation)
+    public void StopImprtantRecord() {
+        mImportantRecord.setStopTime(System.currentTimeMillis());
+        mImportantRecord.setRecordId(1);
     }
 
     public void stopRecording() {

@@ -1,11 +1,14 @@
 package com.example.anass.audiorecorder.Adapters;
 
+import android.content.Context;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.widget.RecyclerView;
-import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.anass.audiorecorder.Activities.MainActivity;
 import com.example.anass.audiorecorder.Models.RecordingItem;
@@ -13,6 +16,7 @@ import com.example.anass.audiorecorder.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -22,6 +26,7 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
 
     List<RecordingItem> liste;
     MainActivity activity;
+
 
     public FileViewerAdapter(MainActivity activity, List<RecordingItem> liste) {
         super();
@@ -60,21 +65,51 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
     @Override
     public RecordingsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.record_item, parent, false);
-        return new RecordingsViewHolder(itemView);
+        return new RecordingsViewHolder(itemView, activity.getApplicationContext());
     }
 
     public static class RecordingsViewHolder extends RecyclerView.ViewHolder {
+        private Context activity;
         protected TextView vName;
         protected TextView vLength;
         protected TextView vDateAdded;
+        private TextToSpeech mTTS;
 
-        public RecordingsViewHolder(View v) {
+
+        public RecordingsViewHolder(View v, final Context context) {
             super(v);
-            vName = (TextView) v.findViewById(R.id.file_name_text);
-            vLength = (TextView) v.findViewById(R.id.file_length_text);
-            vDateAdded = (TextView) v.findViewById(R.id.file_date_added_text);
+            vName =  v.findViewById(R.id.file_name_text);
+            vLength = v.findViewById(R.id.file_length_text);
+            vDateAdded =  v.findViewById(R.id.file_date_added_text);
+            this.activity = context;
+            v.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    mTTS = new TextToSpeech(activity.getApplicationContext(), new TextToSpeech.OnInitListener() {
+                        @Override
+                        public void onInit(int status) {
+                            if (status == TextToSpeech.SUCCESS) {
+                                int result = mTTS.setLanguage(Locale.FRENCH);
+                                if (result == TextToSpeech.LANG_MISSING_DATA
+                                        || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                                    Log.e("TTS", "Language not supported");
+                                } else {
+                                    mTTS.speak("" + vName.getText(), TextToSpeech.QUEUE_FLUSH, null, null);
+                                    mTTS.speak("Pour afficher les enregistrements importants relatifs à ce record glisser vers la droite, pour revenir à l'acceuil glisser vers la gauche", TextToSpeech.QUEUE_FLUSH, null, null);
+                                }
+                            } else {
+                                Log.e("TTS", "Initialization failed");
+                            }
+                        }
+                    });
+                }
+            });
+
         }
+
     }
+
 
     @Override
     public int getItemCount() {
@@ -85,8 +120,9 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
         return liste.get(position);
     }
 
-    public void addAllItems(List<RecordingItem> liste){
+    public void addAllItems(List<RecordingItem> liste) {
         this.liste.addAll(liste);
+        notifyDataSetChanged();
     }
 
 

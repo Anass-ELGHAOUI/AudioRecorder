@@ -109,7 +109,7 @@ public class NVRecordFragment extends Fragment {
             public void onSwipeTop() {
                 if (mTTS.isSpeaking()) {
                     mTTS.stop();
-                    //mTTS.shutdown();
+                    mTTS.shutdown();
                 }
                 if (!mStartRecording) {
                     mStartRecording = !mStartRecording;
@@ -138,8 +138,11 @@ public class NVRecordFragment extends Fragment {
                 }
 
             }
-
             public void onSwipeBottom() {
+                if (mTTS.isSpeaking()) {
+                    mTTS.stop();
+                    mTTS.shutdown();
+                }
                 if (mStartRecording) {
                     mStartRecording = !mStartRecording;
                     onRecord(mStartRecording);

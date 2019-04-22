@@ -51,7 +51,7 @@ public class NVChoiceFragment extends Fragment{
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.i("nv choice fragment", "lanched");
+        Log.i("nv choice fragment", "lunched");
         activity = (MainActivity) getActivity();
         init();
     }
@@ -64,9 +64,17 @@ public class NVChoiceFragment extends Fragment{
     private void swipeConfiguration(){
         ivChoice.setOnTouchListener(new OnSwipeTouchListener(activity) {
             public void onSwipeTop() {
+                if (mTTS.isSpeaking()) {
+                    mTTS.stop();
+                    mTTS.shutdown();
+                }
                 activity.navigateTo(RecordsListFragment.newInstance());
             }
             public void onSwipeRight() {
+                if (mTTS.isSpeaking()) {
+                    mTTS.stop();
+                    mTTS.shutdown();
+                }
                 activity.onBackPressed();
             }
             public void onSwipeLeft() {
@@ -81,7 +89,7 @@ public class NVChoiceFragment extends Fragment{
                     mTTS.stop();
                     mTTS.shutdown();
                 }
-                textToSpeechConverter("pour un nouveau record glisser vers la gauche, pour consulter la liste des enregistrements glisser vers le haut. Pour revenir glisser vers la droite.  glisser vers le bas pour écouter pour écouter le consigne ");
+                textToSpeechConverter("pour un nouveau record glisser vers la gauche, pour consulter la liste des enregistrements glisser vers le haut. Pour revenir glisser vers la droite.  glisser vers le bas pour écouter pour écouter les consignes ");
             }
 
         });
@@ -98,7 +106,7 @@ public class NVChoiceFragment extends Fragment{
                             || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                         Log.e("TTS", "Language not supported");
                     } else {
-                        textToSpeechConverter("pour enregistrer un nouveau record glisser vers la gauche, pour consulter la liste des enregistrements glisser vers le haut. Pour revenir glisser vers la droite.  glisser vers le bas pour écouter pour écouter le consigne ");                    }
+                        textToSpeechConverter("pour enregistrer un nouveau record glisser vers la gauche, pour consulter la liste des enregistrements glisser vers le haut. Pour revenir glisser vers la droite.  glisser vers le bas pour écouter les consignes ");                    }
                 } else {
                     Log.e("TTS", "Initialization failed");
                 }

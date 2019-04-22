@@ -25,4 +25,7 @@ public interface RecordDao {
 
     @Query("SELECT * FROM records_table WHERE record_name = :name")
     RecordingItem getRecordByName(String name);
+
+    @Query("SELECT MAX(id) FROM records_table")
+    int getLastId();
 }
