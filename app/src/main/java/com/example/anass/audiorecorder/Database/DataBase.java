@@ -5,6 +5,7 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
+import com.example.anass.audiorecorder.Database.DAO.ImportantRecordDao;
 import com.example.anass.audiorecorder.Database.DAO.RecordDao;
 import com.example.anass.audiorecorder.Models.RecordingItem;
 
@@ -14,6 +15,7 @@ public abstract class DataBase extends RoomDatabase {
     private static DataBase mInstance;
 
     public abstract RecordDao recordDao();
+    public abstract ImportantRecordDao importantRecordDao();
 
     private static final String DB_NAME = "records_database";
 

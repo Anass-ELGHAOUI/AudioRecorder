@@ -22,4 +22,10 @@ public interface RecordDao {
 
     @Query("DELETE  FROM records_table")
     void deleteAllRecords();
+
+    @Query("SELECT * FROM records_table WHERE record_name = :name")
+    RecordingItem getRecordByName(String name);
+
+    @Query("SELECT MAX(id) FROM records_table")
+    int getLastId();
 }

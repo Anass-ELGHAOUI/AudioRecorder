@@ -89,4 +89,63 @@ public class RecordRepository {
             return null;
         }
     }
+
+    public static class getRecordAsyncTask extends AsyncTask<String, Void, RecordingItem> {
+
+        private RecordDao recordDao;
+        private RecordingItem recordTask;
+        OnLoadCompleted callback;
+
+        public getRecordAsyncTask(RecordDao recordDao, OnLoadCompleted callback) {
+            this.recordDao = recordDao;
+            this.callback = callback;
+        }
+
+        @Override
+        protected void onPostExecute(RecordingItem recordingItem) {
+            super.onPostExecute(recordingItem);
+            recordTask = recordingItem;
+            this.callback.OnLoadCompleted();
+        }
+
+        public RecordingItem getRecordByName() {
+            return recordTask;
+        }
+
+        @Override
+        protected RecordingItem doInBackground(String... strings) {
+            return recordDao.getRecordByName(strings[0]);
+        }
+    }
+
+
+    public static class getLastIdAsyncTask extends AsyncTask<Void, Void, Integer> {
+
+        private RecordDao recordDao;
+        OnLoadCompleted callback;
+        private int lastId;
+
+        public getLastIdAsyncTask(RecordDao recordDao, OnLoadCompleted callback) {
+            this.recordDao = recordDao;
+            this.callback = callback;
+        }
+
+        @Override
+        protected void onPostExecute(Integer integer) {
+            super.onPostExecute(integer);
+            this.callback.OnLoadCompleted();
+            lastId = integer;
+        }
+
+        public Integer getLastId() {
+            return lastId;
+        }
+
+        @Override
+        protected Integer doInBackground(Void... Voids) {
+            return recordDao.getLastId();
+        }
+    }
+
+
 }
