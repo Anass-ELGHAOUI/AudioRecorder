@@ -87,6 +87,7 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
 
     public void addAllItems(List<RecordingItem> liste){
         this.liste.addAll(liste);
+        notifyDataSetChanged();
     }
 
 
