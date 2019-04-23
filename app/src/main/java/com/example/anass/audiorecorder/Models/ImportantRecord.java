@@ -12,8 +12,7 @@ import lombok.NoArgsConstructor;
 
 import static android.arch.persistence.room.ForeignKey.CASCADE;
 
-@Entity(foreignKeys = @ForeignKey(entity = RecordingItem.class, parentColumns = "id",
-            childColumns = "original_record_id", onDelete = CASCADE))
+@Entity
 @Data @NoArgsConstructor
 public class ImportantRecord implements Serializable {
 

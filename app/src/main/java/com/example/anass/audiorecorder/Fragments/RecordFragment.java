@@ -118,18 +118,19 @@ public class RecordFragment extends Fragment implements OnLoadCompleted {
 
     @OnClick(R.id.btnStratEvaluation)
     public void StartImprtantRecord() {
+        Log.i("IMPORTANT RECORD", "Started");
         mImportantRecord = new ImportantRecord();
         mImportantRecord.setStartTime(System.currentTimeMillis());
-        Log.i("Imp Rec Started", String.valueOf(lastIdAsyncTask.getLastId()));
     }
 
     @OnClick(R.id.btnStopEvaluation)
     public void StopImprtantRecord() {
-        mImportantRecord.setStopTime(System.currentTimeMillis());
-        Log.i("Last ID", String.valueOf(lastIdAsyncTask.getLastId()));
-        mImportantRecord.setRecordId(lastIdAsyncTask.getLastId() + 1);
-        mImportantRecordRepository.addImportantRecord(mImportantRecord);
-        Log.i("STOP IMPORTANT RECORD", System.currentTimeMillis() + " ");
+        if(mImportantRecord != null){
+            mImportantRecord.setStopTime(System.currentTimeMillis());
+            mImportantRecord.setRecordId(lastIdAsyncTask.getLastId() + 1);
+            mImportantRecordRepository.addImportantRecord(mImportantRecord);
+            Log.i("STOP IMPORTANT RECORD", System.currentTimeMillis() + " ");
+        }
     }
 
     @Override
