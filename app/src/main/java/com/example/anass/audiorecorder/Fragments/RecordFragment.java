@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.anass.audiorecorder.Activities.MainActivity;
+import com.example.anass.audiorecorder.Database.DataBase;
 import com.example.anass.audiorecorder.Database.Repositories.ImportantRecordRepository;
 import com.example.anass.audiorecorder.Database.Repositories.RecordRepository;
 import com.example.anass.audiorecorder.Helper.OnLoadCompleted;
@@ -43,6 +44,12 @@ public class RecordFragment extends Fragment implements OnLoadCompleted {
     RecordRepository mRecordRepository;
 
     ImportantRecordRepository mImportantRecordRepository;
+
+    RecordRepository.getLastIdAsyncTask lastIdAsyncTask;
+
+    DataBase db;
+
+
 
     ImportantRecord mImportantRecord;
 
@@ -88,6 +95,13 @@ public class RecordFragment extends Fragment implements OnLoadCompleted {
         super.onViewCreated(view, savedInstanceState);
         Log.i("login activity ", "login lunched");
         activity = (MainActivity) getActivity();
+        init();
+    }
+
+    public void init(){
+        db = DataBase.getInstance(activity.getApplicationContext());
+        lastIdAsyncTask = new RecordRepository.getLastIdAsyncTask(db.recordDao(),this);
+        lastIdAsyncTask.execute();
     }
 
     @OnClick(R.id.btnRecord)
@@ -106,14 +120,14 @@ public class RecordFragment extends Fragment implements OnLoadCompleted {
     public void StartImprtantRecord() {
         mImportantRecord = new ImportantRecord();
         mImportantRecord.setStartTime(System.currentTimeMillis());
-        Log.i("Imp Rec Started", String.valueOf(mRecordRepository.getLastID()));
+        Log.i("Imp Rec Started", String.valueOf(lastIdAsyncTask.getLastId()));
     }
 
     @OnClick(R.id.btnStopEvaluation)
     public void StopImprtantRecord() {
         mImportantRecord.setStopTime(System.currentTimeMillis());
-        Log.i("Last ID", String.valueOf(mRecordRepository.getLastID()));
-        mImportantRecord.setRecordId(mRecordRepository.getLastID() + 1);
+        Log.i("Last ID", String.valueOf(lastIdAsyncTask.getLastId()));
+        mImportantRecord.setRecordId(lastIdAsyncTask.getLastId() + 1);
         mImportantRecordRepository.addImportantRecord(mImportantRecord);
         Log.i("STOP IMPORTANT RECORD", System.currentTimeMillis() + " ");
     }
@@ -197,4 +211,5 @@ public class RecordFragment extends Fragment implements OnLoadCompleted {
     public void OnLoadCompleted() {
 
     }
+
 }

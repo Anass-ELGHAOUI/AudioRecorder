@@ -122,7 +122,7 @@ public class RecordRepository {
         return mRecordDao.getLastId();
     }
 
-    private static class getLastIdAsyncTask extends AsyncTask<Void, Void, Integer> {
+    public static class getLastIdAsyncTask extends AsyncTask<Void, Void, Integer> {
 
         private RecordDao recordDao;
         OnLoadCompleted callback;
@@ -138,6 +138,7 @@ public class RecordRepository {
             super.onPostExecute(integer);
             this.callback.OnLoadCompleted();
             lastId = integer;
+            Log.i("Last Id",""+lastId);
         }
 
         public Integer getLastId() {
