@@ -7,7 +7,6 @@ import android.arch.persistence.room.PrimaryKey;
 
 import java.io.Serializable;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,7 +14,7 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
 
 @Entity(foreignKeys = @ForeignKey(entity = RecordingItem.class, parentColumns = "id",
             childColumns = "original_record_id", onDelete = CASCADE))
-@Data @NoArgsConstructor @AllArgsConstructor
+@Data @NoArgsConstructor
 public class ImportantRecord implements Serializable {
 
     @PrimaryKey(autoGenerate = true)

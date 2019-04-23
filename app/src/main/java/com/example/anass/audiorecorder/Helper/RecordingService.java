@@ -69,7 +69,6 @@ public class RecordingService extends Service implements OnLoadCompleted{
     public void OnLoadCompleted() {
         List<RecordingItem> list = getRecordsAsyncTask.getRecords();
         Log.i("NumberOfRecords", String.valueOf(getRecordsAsyncTask.getRecords().size()));
-
     }
 
     public interface OnTimerChangedListener {
@@ -81,6 +80,8 @@ public class RecordingService extends Service implements OnLoadCompleted{
         super.onCreate();
         mRecordRepository = new RecordRepository(getApplication());
         mImportantRecordRepository = new ImportantRecordRepository(getApplication());
+        //getLastIdAsyncTask = new RecordRepository.getLastIdAsyncTask(mRecordRepository.getRecordDao(), this);
+        //getLastIdAsyncTask.execute();
        // mDatabase = new DBHelper(getApplicationContext());
     }
 
@@ -144,18 +145,6 @@ public class RecordingService extends Service implements OnLoadCompleted{
             f = new File(mFilePath);
         }while (f.exists() && !f.isDirectory());
 
-    }
-
-    @OnClick(R.id.btnStratEvaluation)
-    public void StartImprtantRecord() {
-        mImportantRecord = new ImportantRecord();
-        mImportantRecord.setStartTime(System.currentTimeMillis());
-    }
-
-    @OnClick(R.id.btnStopEvaluation)
-    public void StopImprtantRecord() {
-        mImportantRecord.setStopTime(System.currentTimeMillis());
-        mImportantRecord.setRecordId(1);
     }
 
     public void stopRecording() {

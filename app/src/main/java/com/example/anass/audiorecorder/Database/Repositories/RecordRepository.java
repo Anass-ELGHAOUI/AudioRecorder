@@ -118,8 +118,11 @@ public class RecordRepository {
         }
     }
 
+    public int getLastID() {
+        return mRecordDao.getLastId();
+    }
 
-    public static class getLastIdAsyncTask extends AsyncTask<Void, Void, Integer> {
+    private static class getLastIdAsyncTask extends AsyncTask<Void, Void, Integer> {
 
         private RecordDao recordDao;
         OnLoadCompleted callback;

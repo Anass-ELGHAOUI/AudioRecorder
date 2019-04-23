@@ -7,9 +7,10 @@ import android.content.Context;
 
 import com.example.anass.audiorecorder.Database.DAO.ImportantRecordDao;
 import com.example.anass.audiorecorder.Database.DAO.RecordDao;
+import com.example.anass.audiorecorder.Models.ImportantRecord;
 import com.example.anass.audiorecorder.Models.RecordingItem;
 
-@Database(entities = RecordingItem.class, version = 1, exportSchema = false)
+@Database(entities = {RecordingItem.class, ImportantRecord.class}, version = 2, exportSchema = false)
 public abstract class DataBase extends RoomDatabase {
 
     private static DataBase mInstance;
