@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/imp_top_bar"
+        style="@style/action_bar_style"
+        android:layout_width="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/actionbar_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="36dp"
+            android:layout_marginEnd="36dp"
+            android:maxLines="1"
+            android:text="Record" />
+
+        <!-- Btn menu -->
+        <ImageButton
+            android:id="@+id/imp_btn_menu"
+            style="@style/actionbar_settings_buttons" />
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/imp_records_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

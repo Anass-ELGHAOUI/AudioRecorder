@@ -38,7 +38,8 @@ public class ImportantRecordRepository {
         @Override
         protected Void doInBackground(ImportantRecord... recordingItems) {
             importantRecordDao.addImportantRecord(recordingItems[0]);
-            Log.i("IMPORTANT RECORD ADDED", recordingItems[0].getStartTime() + " " + recordingItems[0].getStopTime());
+            Log.i("IMPORTANT RECORD ADDED", recordingItems[0].getRecordId() + " ");
+
             return null;
         }
     }

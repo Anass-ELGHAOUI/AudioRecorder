@@ -27,8 +27,6 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import butterknife.OnClick;
-
 import static com.example.anass.audiorecorder.App.CHANNEL_ID;
 
 /**

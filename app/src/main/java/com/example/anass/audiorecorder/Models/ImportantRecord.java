@@ -2,7 +2,6 @@ package com.example.anass.audiorecorder.Models;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
 
 import java.io.Serializable;
@@ -10,10 +9,9 @@ import java.io.Serializable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import static android.arch.persistence.room.ForeignKey.CASCADE;
-
 @Entity
-@Data @NoArgsConstructor
+@Data
+@NoArgsConstructor
 public class ImportantRecord implements Serializable {
 
     @PrimaryKey(autoGenerate = true)

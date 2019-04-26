@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
@@ -49,21 +50,25 @@ public class RecordFragment extends Fragment implements OnLoadCompleted {
 
     DataBase db;
 
-
-
     ImportantRecord mImportantRecord;
 
     @Bind(R.id.btn_menu)
-    public ImageButton btnMenu;
+    ImageButton btnMenu;
 
     @Bind(R.id.btnRecord)
-    public FloatingActionButton mRecordButton;
+    FloatingActionButton mRecordButton;
+
+    @Bind(R.id.btnStratEvaluation)
+    Button startEvaluation;
+
+    @Bind(R.id.btnStopEvaluation)
+    Button StopEvaluation;
 
     @Bind(R.id.chronometer)
-    public Chronometer mChronometer;
+    Chronometer mChronometer;
 
     @Bind(R.id.recordProgressBar)
-    public ProgressBar recordProgressBar;
+    ProgressBar recordProgressBar;
 
     @Bind(R.id.recording_status_text)
     public TextView mRecordingPrompt;
@@ -102,6 +107,11 @@ public class RecordFragment extends Fragment implements OnLoadCompleted {
         db = DataBase.getInstance(activity.getApplicationContext());
         lastIdAsyncTask = new RecordRepository.getLastIdAsyncTask(db.recordDao(),this);
         lastIdAsyncTask.execute();
+
+        if (!mStartRecording) {
+          startEvaluation.setEnabled(false);
+          StopEvaluation.setEnabled(false);
+        }
     }
 
     @OnClick(R.id.btnRecord)
@@ -129,7 +139,7 @@ public class RecordFragment extends Fragment implements OnLoadCompleted {
             mImportantRecord.setStopTime(System.currentTimeMillis());
             mImportantRecord.setRecordId(lastIdAsyncTask.getLastId() + 1);
             mImportantRecordRepository.addImportantRecord(mImportantRecord);
-            Log.i("STOP IMPORTANT RECORD", System.currentTimeMillis() + " ");
+            Log.i("STOP IMPORTANT RECORD", " Saved");
         }
     }
 

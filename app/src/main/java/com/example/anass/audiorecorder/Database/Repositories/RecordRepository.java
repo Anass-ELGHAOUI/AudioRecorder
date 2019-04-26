@@ -48,6 +48,34 @@ public class RecordRepository {
         }
     }
 
+    /*public static class getRecordByName extends AsyncTask<String, Void, RecordingItem> {
+
+        private RecordDao mRecordDao;
+        private RecordingItem mRecordingItemTask;
+        OnLoadCompleted callback;
+
+        public getRecordByName(RecordDao mRecordDao, OnLoadCompleted callback) {
+            this.mRecordDao = mRecordDao;
+            this.callback = callback;
+        }
+
+        @Override
+        protected RecordingItem doInBackground(String... strings) {
+            return mRecordDao.getRecordByName(strings[0]);
+        }
+
+        @Override
+        protected void onPostExecute(RecordingItem recordingItem) {
+            super.onPostExecute(recordingItem);
+            mRecordingItemTask = recordingItem;
+            this.callback.OnLoadCompleted();
+        }
+
+        public RecordingItem getRecordByName() {
+            return mRecordingItemTask;
+        }
+    }*/
+
     public static class getRecordsAsyncTask extends AsyncTask<Void, Void, List<RecordingItem>> {
 
         private RecordDao mRecordDao;
