@@ -90,7 +90,7 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
 
 
 
-        public RecordingsViewHolder(View v, MainActivity context) {
+        public RecordingsViewHolder(View v, final MainActivity context) {
             super(v);
             vName =  v.findViewById(R.id.file_name_text);
             vLength = v.findViewById(R.id.file_length_text);
@@ -105,13 +105,13 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
                         mTTS.stop();
                         mTTS.shutdown();
                     }
-                    if (mediaPlayer == null) {
-                        mediaPlayer = new MediaPlayer();
-                    }
+
+                    mediaPlayer = new MediaPlayer();
+
                     try {
-                        mediaPlayer.setDataSource(vFilePath.getText().toString());
+                        mediaPlayer.setDataSource(context.getApplicationContext(), Uri.parse(vFilePath.getText().toString()));
+
                         mediaPlayer.prepare();
-                        mediaPlayer.setAudioStreamType(AudioManager.STREAM_ACCESSIBILITY);
                         mediaPlayer.start();
                     } catch (IOException e) {
                         e.printStackTrace();
