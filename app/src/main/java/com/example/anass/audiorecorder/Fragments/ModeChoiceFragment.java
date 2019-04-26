@@ -1,5 +1,6 @@
 package com.example.anass.audiorecorder.Fragments;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.os.Build;
@@ -61,6 +62,7 @@ public class ModeChoiceFragment extends Fragment {
         swipeConfiguration();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void swipeConfiguration() {
         ivChoice.setOnTouchListener(new OnSwipeTouchListener(activity) {
             public void onSwipeTop() {
@@ -105,7 +107,7 @@ public class ModeChoiceFragment extends Fragment {
                             || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                         Log.e("TTS", "Language not supported");
                     } else {
-                        textToSpeechConverter("Acceuil. Pour l'utilisation de mode normal glisser vers la gauche sinon glisser vers la droite. pour quitter glissez vers le bas.  Appuyer longtemps pour écouter le consigne ");
+                        textToSpeechConverter("Acceuil. Pour l'utilisation de mode normal glisser vers la gauche sinon glisser vers la droite. pour quitter glissez vers le bas.  Appuyer longtemps pour écouter les consignes ");
                     }
                 } else {
                     Log.e("TTS", "Initialization failed");

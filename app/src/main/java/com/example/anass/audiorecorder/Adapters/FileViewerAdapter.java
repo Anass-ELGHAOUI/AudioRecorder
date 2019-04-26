@@ -135,7 +135,7 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
                     } else {
                         mediaPlayer = null;
                     }
-                    if(isClicked == false){
+                    if(!isClicked){
 
                         mTTS = new TextToSpeech(activity.getApplicationContext(), new TextToSpeech.OnInitListener() {
                             @Override
@@ -146,7 +146,7 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
                                             || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                                         Log.e("TTS", "Language not supported");
                                     } else {
-                                        mTTS.speak(vName.getText() + ". Long click pour écouter le record, clicker une autre fois pour afficher la liste des records important" +
+                                        mTTS.speak(vName.getText() + ". Appuyer longtemps pour écouter le record, cliquer une autre fois pour afficher la liste des records important" +
                                                 "relatifs à ce record", TextToSpeech.QUEUE_FLUSH, null, null);
                                     }
                                 } else {
@@ -156,7 +156,7 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
                         });
                         isClicked = true;
                         Log.i(LOG_TAG, "isClicked: " + isClicked);
-                    }else if (isClicked == true){
+                    }else if (isClicked){
                         isClicked = false;
                         Log.i(LOG_TAG,"ADAPTER POSITION: " + getAdapterPosition());
                         activity.navigateTo(ImportantRecordsListFragment.newInstance(getAdapterPosition()));
