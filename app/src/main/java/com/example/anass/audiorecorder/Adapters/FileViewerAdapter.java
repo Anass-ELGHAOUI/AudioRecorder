@@ -105,7 +105,11 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
                         mTTS.stop();
                         mTTS.shutdown();
                     }
-
+                    if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+                        mediaPlayer.stop();
+                        mediaPlayer.reset();
+                        mediaPlayer = null;
+                    }
                     mediaPlayer = new MediaPlayer();
 
                     try {
