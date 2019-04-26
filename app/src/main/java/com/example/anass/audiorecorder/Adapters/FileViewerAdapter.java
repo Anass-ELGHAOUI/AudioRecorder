@@ -2,6 +2,7 @@ package com.example.anass.audiorecorder.Adapters;
 
 import android.arch.persistence.room.Database;
 import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.provider.ContactsContract;
@@ -110,12 +111,8 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
                     try {
                         mediaPlayer.setDataSource(vFilePath.getText().toString());
                         mediaPlayer.prepare();
-                        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                            @Override
-                            public void onPrepared(MediaPlayer mp) {
-                                mediaPlayer.start();
-                            }
-                        });
+                        mediaPlayer.setAudioStreamType(AudioManager.STREAM_ACCESSIBILITY);
+                        mediaPlayer.start();
                     } catch (IOException e) {
                         e.printStackTrace();
                         Log.e(LOG_TAG, "prepare() failed");
@@ -128,6 +125,12 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
 
                 @Override
                 public void onClick(View v) {
+                    if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+                        mediaPlayer.stop();
+                        mediaPlayer = null;
+                    } else {
+                        mediaPlayer = null;
+                    }
                     if(isClicked == false){
 
                         mTTS = new TextToSpeech(activity.getApplicationContext(), new TextToSpeech.OnInitListener() {
