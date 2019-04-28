@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.anass.audiorecorder.Activities.MainActivity;
 import com.example.anass.audiorecorder.Fragments.ImportantRecordsListFragment;
+import com.example.anass.audiorecorder.Fragments.NVImpRecordsListFragment;
 import com.example.anass.audiorecorder.Models.RecordingItem;
 import com.example.anass.audiorecorder.R;
 
@@ -155,7 +156,7 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
                         int mPosition = getAdapterPosition();
                         Log.i(LOG_TAG, "ADAPTER POSITION: " + mPosition);
                         Log.i(LOG_TAG, "Path: " + privateList.get(mPosition).getFilePath());
-                        activity.navigateTo(ImportantRecordsListFragment.newInstance(mPosition + 1, privateList.get(mPosition)));
+                        activity.navigateTo(NVImpRecordsListFragment.newInstance(mPosition + 1, privateList.get(mPosition)));
                     }
 
                 }
