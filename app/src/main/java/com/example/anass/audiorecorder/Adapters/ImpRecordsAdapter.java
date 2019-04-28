@@ -3,6 +3,7 @@ package com.example.anass.audiorecorder.Adapters;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.CountDownTimer;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -57,6 +58,7 @@ public class ImpRecordsAdapter extends RecyclerView.Adapter<ImpRecordsAdapter.Re
         holder.mImportantRecordStart = item.getStartTime();
         holder.mPath = recordingItem.getFilePath();
         holder.mRecordStart = recordingItem.getStart();
+        holder.mImportantRecordEnd = item.getStopTime();
        /* holder.vDateAdded.setText(
                 DateUtils.formatDateTime(
                         activity.getApplicationContext(),
@@ -78,6 +80,7 @@ public class ImpRecordsAdapter extends RecyclerView.Adapter<ImpRecordsAdapter.Re
         protected TextView vLength;
         protected TextView vDateAdded;
         protected long mImportantRecordStart;
+        protected long mImportantRecordEnd;
         protected long mRecordStart;
         protected String mPath;
         static protected MediaPlayer mediaPlayer;
@@ -108,6 +111,24 @@ public class ImpRecordsAdapter extends RecyclerView.Adapter<ImpRecordsAdapter.Re
                         mediaPlayer.prepare();
                         mediaPlayer.seekTo((int) (mImportantRecordStart - mRecordStart));
                         mediaPlayer.start();
+                        new CountDownTimer(mImportantRecordEnd-mImportantRecordStart,1000) {
+
+                            @Override
+                            public void onTick(long millisUntilFinished) {
+                                // TODO Auto-generated method stub
+
+                            }
+
+                            @Override
+                            public void onFinish() {
+                                // TODO Auto-generated method stub
+                                if(mediaPlayer.isPlaying())
+                                {
+                                    mediaPlayer.stop();
+                                }
+
+                            }
+                        }.start();
                     } catch (IOException e) {
                         e.printStackTrace();
                         Log.e(LOG_TAG, "prepare() failed");
