@@ -75,11 +75,6 @@ public class NVImpRecordsListFragment extends Fragment implements OnLoadComplete
         getData();
     }
 
-    @OnClick(R.id.button_add_record_imp)
-    public void adjclick() {
-        activity.navigateTo(RecordFragment.newInstance());
-    }
-
     @Override
     public void OnLoadCompleted() {
         refreshRecyclerView();

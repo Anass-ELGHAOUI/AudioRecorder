@@ -29,7 +29,8 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/voyants_records_recycler"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/button_add_record"
