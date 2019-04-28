@@ -9,8 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.anass.audiorecorder.Activities.MainActivity;
+import com.example.anass.audiorecorder.Helper.Utils;
 import com.example.anass.audiorecorder.Models.ImportantRecord;
 import com.example.anass.audiorecorder.Models.RecordingItem;
 import com.example.anass.audiorecorder.R;
@@ -78,7 +80,7 @@ public class ImpRecordsAdapter extends RecyclerView.Adapter<ImpRecordsAdapter.Re
         protected long mImportantRecordStart;
         protected long mRecordStart;
         protected String mPath;
-        protected MediaPlayer mediaPlayer;
+        static protected MediaPlayer mediaPlayer;
 
         public RecordingsViewHolder(View v, final Context context) {
             super(v);
@@ -100,9 +102,11 @@ public class ImpRecordsAdapter extends RecyclerView.Adapter<ImpRecordsAdapter.Re
                     mediaPlayer = new MediaPlayer();
 
                     try {
+                        Log.e(LOG_TAG, mPath);
                         mediaPlayer.setDataSource(context.getApplicationContext(), Uri.parse(mPath));
-                        mediaPlayer.seekTo((int) (mRecordStart - mImportantRecordStart));
+                        Utils.makeToast(activity,""+(mImportantRecordStart - mRecordStart));
                         mediaPlayer.prepare();
+                        mediaPlayer.seekTo((int) (mImportantRecordStart - mRecordStart));
                         mediaPlayer.start();
                     } catch (IOException e) {
                         e.printStackTrace();
