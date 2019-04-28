@@ -11,6 +11,12 @@
         style="@style/action_bar_style"
         android:layout_width="match_parent">
 
+        <ImageButton
+            android:id="@+id/btn_add"
+            style="@style/actionbar_settings_buttons"
+            android:src="@drawable/ic_plus"
+            android:tint="@color/white"/>
+
         <TextView
             style="@style/actionbar_title"
             android:layout_width="match_parent"
@@ -30,18 +36,6 @@
             android:id="@+id/voyants_records_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/button_add_record"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginEnd="30dp"
-            android:layout_marginBottom="30dp"
-            android:src="@drawable/ic_add_black_24dp"
-            android:backgroundTint="@color/blue"
             />
     </RelativeLayout>
 

@@ -149,6 +149,11 @@ public class RecordFragment extends Fragment implements OnLoadCompleted {
         }
     }
 
+    @OnClick(R.id.btn_back)
+    public void btnBackOnClick() {
+        activity.onBackPressed();
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {

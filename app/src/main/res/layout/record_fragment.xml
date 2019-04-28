@@ -13,6 +13,10 @@
         android:layout_width="match_parent"
         style="@style/action_bar_style">
 
+        <ImageButton
+            android:id="@+id/btn_back"
+            style="@style/actionbar_back_buttons" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"

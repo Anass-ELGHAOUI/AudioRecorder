@@ -77,7 +77,7 @@ public class RecordFragmentVoyant extends Fragment implements OnLoadCompleted {
         recordsAsyncTask.execute();
     }
 
-    @OnClick(R.id.button_add_record)
+    @OnClick(R.id.btn_add)
     public void adjclick() {
         activity.navigateTo(RecordFragment.newInstance());
     }
