@@ -1,6 +1,5 @@
 package com.example.anass.audiorecorder.Fragments;
 
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.os.Build;
@@ -22,8 +21,10 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnLongClick;
+
+import static butterknife.ButterKnife.bind;
+import static butterknife.ButterKnife.unbind;
 
 public class ModeChoiceFragment extends Fragment {
 
@@ -45,7 +46,7 @@ public class ModeChoiceFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mode_choice_fragment, container, false);
-        ButterKnife.bind(this, view);
+        bind(this, view);
         return view;
     }
 
@@ -62,7 +63,6 @@ public class ModeChoiceFragment extends Fragment {
         swipeConfiguration();
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     private void swipeConfiguration() {
         ivChoice.setOnTouchListener(new OnSwipeTouchListener(activity) {
             public void onSwipeTop() {
@@ -107,7 +107,7 @@ public class ModeChoiceFragment extends Fragment {
                             || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                         Log.e("TTS", "Language not supported");
                     } else {
-                        textToSpeechConverter("Acceuil. Pour l'utilisation de mode normal glisser vers la gauche sinon glisser vers la droite. pour quitter glissez vers le bas.  Appuyer longtemps pour écouter les consignes ");
+                        textToSpeechConverter("Acceuil. Pour l'utilisation de mode normal glisser vers la gauche sinon glisser vers la droite. pour quitter glissez vers le bas.  Appuyer longtemps pour écouter les consigne ");
                     }
                 } else {
                     Log.e("TTS", "Initialization failed");
@@ -147,6 +147,7 @@ public class ModeChoiceFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        unbind(this);
         if (mTTS != null) {
             mTTS.stop();
             mTTS.shutdown();

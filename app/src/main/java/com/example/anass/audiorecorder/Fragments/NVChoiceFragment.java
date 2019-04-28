@@ -24,6 +24,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnLongClick;
 
+import static butterknife.ButterKnife.bind;
+import static butterknife.ButterKnife.unbind;
+
 public class NVChoiceFragment extends Fragment{
 
     @Bind(R.id.iv_nv_choice)
@@ -44,7 +47,7 @@ public class NVChoiceFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.nv_choice_fragment, container, false);
-        ButterKnife.bind(this, view);
+        bind(this, view);
         return view;
     }
 
@@ -138,6 +141,7 @@ public class NVChoiceFragment extends Fragment{
     @Override
     public void onDestroy() {
         super.onDestroy();
+        unbind(this);
         if (mTTS != null) {
             mTTS.stop();
             mTTS.shutdown();

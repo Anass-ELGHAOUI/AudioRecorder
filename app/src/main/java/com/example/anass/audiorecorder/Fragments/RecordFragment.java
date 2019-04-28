@@ -35,8 +35,10 @@ import com.melnykov.fab.FloatingActionButton;
 import java.io.File;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static butterknife.ButterKnife.bind;
+import static butterknife.ButterKnife.unbind;
 
 public class RecordFragment extends Fragment implements OnLoadCompleted {
 
@@ -77,6 +79,8 @@ public class RecordFragment extends Fragment implements OnLoadCompleted {
 
     private boolean mStartRecording = false;
 
+    private static final String TAG = "RecordFragment";
+
     public static RecordFragment newInstance() {
         RecordFragment fragment = new RecordFragment();
         Bundle args = new Bundle();
@@ -89,7 +93,7 @@ public class RecordFragment extends Fragment implements OnLoadCompleted {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.record_fragment, container, false);
-        ButterKnife.bind(this, view);
+        bind(this, view);
         mRecordRepository = new RecordRepository(getActivity().getApplication());
         mImportantRecordRepository = new ImportantRecordRepository(getActivity().getApplication());
         return view;
@@ -98,19 +102,19 @@ public class RecordFragment extends Fragment implements OnLoadCompleted {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.i("login activity ", "login lunched");
+        Log.i(TAG, "Lunched");
         activity = (MainActivity) getActivity();
         init();
     }
 
-    public void init(){
+    public void init() {
         db = DataBase.getInstance(activity.getApplicationContext());
-        lastIdAsyncTask = new RecordRepository.getLastIdAsyncTask(db.recordDao(),this);
+        lastIdAsyncTask = new RecordRepository.getLastIdAsyncTask(db.recordDao(), this);
         lastIdAsyncTask.execute();
 
         if (!mStartRecording) {
-          startEvaluation.setEnabled(false);
-          StopEvaluation.setEnabled(false);
+            startEvaluation.setEnabled(false);
+            StopEvaluation.setEnabled(false);
         }
     }
 
@@ -128,18 +132,18 @@ public class RecordFragment extends Fragment implements OnLoadCompleted {
 
     @OnClick(R.id.btnStratEvaluation)
     public void StartImprtantRecord() {
-        Log.i("IMPORTANT RECORD", "Started");
+        Log.i(TAG, "Important record started");
         mImportantRecord = new ImportantRecord();
         mImportantRecord.setStartTime(System.currentTimeMillis());
     }
 
     @OnClick(R.id.btnStopEvaluation)
     public void StopImprtantRecord() {
-        if(mImportantRecord != null){
+        if (mImportantRecord != null) {
             mImportantRecord.setStopTime(System.currentTimeMillis());
             mImportantRecord.setRecordId(lastIdAsyncTask.getLastId() + 1);
             mImportantRecordRepository.addImportantRecord(mImportantRecord);
-            Log.i("STOP IMPORTANT RECORD", " Saved");
+            Log.i(TAG, "Important Record Saved");
         }
     }
 
@@ -216,6 +220,7 @@ public class RecordFragment extends Fragment implements OnLoadCompleted {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        unbind(this);
     }
 
     @Override

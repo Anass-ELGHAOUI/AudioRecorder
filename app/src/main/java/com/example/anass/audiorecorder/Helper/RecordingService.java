@@ -1,13 +1,16 @@
 package com.example.anass.audiorecorder.Helper;
 
+import android.Manifest;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.media.MediaRecorder;
 import android.os.IBinder;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
@@ -29,10 +32,7 @@ import java.util.TimerTask;
 
 import static com.example.anass.audiorecorder.App.CHANNEL_ID;
 
-/**
- * Created by Anass on 16/03/2019.
- */
-public class RecordingService extends Service implements OnLoadCompleted{
+public class RecordingService extends Service implements OnLoadCompleted {
 
     private static final String LOG_TAG = "RecordingService";
 
@@ -80,12 +80,14 @@ public class RecordingService extends Service implements OnLoadCompleted{
         mImportantRecordRepository = new ImportantRecordRepository(getApplication());
         //getLastIdAsyncTask = new RecordRepository.getLastIdAsyncTask(mRecordRepository.getRecordDao(), this);
         //getLastIdAsyncTask.execute();
-       // mDatabase = new DBHelper(getApplicationContext());
+        // mDatabase = new DBHelper(getApplicationContext());
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
         startRecording();
+
         return START_STICKY;
     }
 
@@ -101,7 +103,7 @@ public class RecordingService extends Service implements OnLoadCompleted{
     public void startRecording() {
         setFileNameAndPath();
 
-        Log.i("startRecording","started");
+        Log.i("startRecording", "started");
 
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -131,23 +133,23 @@ public class RecordingService extends Service implements OnLoadCompleted{
         }
     }
 
-    public void setFileNameAndPath(){
+    public void setFileNameAndPath() {
         int count = 0;
         File f;
 
-        do{
+        do {
             count++;
             mFilePath = getExternalCacheDir().getAbsolutePath();
-            mFileName = "Audio"+count;
-            mFilePath += "/"+mFileName+".mp3";
+            mFileName = "Audio" + count;
+            mFilePath += "/" + mFileName + ".mp3";
             f = new File(mFilePath);
-        }while (f.exists() && !f.isDirectory());
+        } while (f.exists() && !f.isDirectory());
 
     }
 
     public void stopRecording() {
 
-        try{
+        try {
             mRecorder.stop();
             mElapsedMillis = (System.currentTimeMillis() - mStartingTimeMillis);
             mRecorder.release();
@@ -159,7 +161,7 @@ public class RecordingService extends Service implements OnLoadCompleted{
                 mIncrementTimerTask = null;
             }
             mRecorder = null;
-        }catch(RuntimeException stopException){
+        } catch (RuntimeException stopException) {
             //handle cleanup here
         }
 
@@ -169,7 +171,7 @@ public class RecordingService extends Service implements OnLoadCompleted{
             mRecordRepository.addRecord(new RecordingItem(mFileName, mFilePath, mElapsedMillis));
             getRecordsAsyncTask = new RecordRepository.getRecordsAsyncTask(mRecordRepository.getRecordDao(), this);
             getRecordsAsyncTask.execute();
-        } catch (Exception e){
+        } catch (Exception e) {
             Log.e(LOG_TAG, "exception", e);
         }
     }
@@ -194,7 +196,7 @@ public class RecordingService extends Service implements OnLoadCompleted{
         Intent mIntent = new Intent(getApplicationContext(), MainActivity.class);
         PendingIntent mPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, mIntent, 0);
         mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        Notification mNotification = new  NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
+        Notification mNotification = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_mic_white_36dp)
                 .setContentTitle(getString(R.string.notification_recording))
                 .setContentText(mTimerFormat.format(mElapsedSeconds * 1000))
@@ -214,6 +216,6 @@ public class RecordingService extends Service implements OnLoadCompleted{
                 new Intent[]{new Intent(getApplicationContext(), MainActivity.class)}, 0));
 
         return mBuilder.build();*/
-       return mNotification;
+        return mNotification;
     }
 }
