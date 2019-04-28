@@ -3,6 +3,7 @@ package com.example.anass.audiorecorder.Fragments;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,11 +23,13 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class RecordFragmentVoyant extends Fragment implements OnLoadCompleted {
 
     @Bind(R.id.voyants_records_recycler)
     public RecyclerView mainRecycler;
+
 
     MainActivity activity;
 
@@ -72,6 +75,11 @@ public class RecordFragmentVoyant extends Fragment implements OnLoadCompleted {
         db = DataBase.getInstance(activity.getApplicationContext());
         recordsAsyncTask = new RecordRepository.getRecordsAsyncTask(db.recordDao(), this);
         recordsAsyncTask.execute();
+    }
+
+    @OnClick(R.id.button_add_record)
+    public void adjclick() {
+        activity.navigateTo(RecordFragment.newInstance());
     }
 
     @Override

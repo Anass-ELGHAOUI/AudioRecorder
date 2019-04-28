@@ -18,6 +18,7 @@ import com.example.anass.audiorecorder.Activities.MainActivity;
 import com.example.anass.audiorecorder.Database.DataBase;
 import com.example.anass.audiorecorder.Database.Repositories.RecordRepository;
 import com.example.anass.audiorecorder.Fragments.ImportantRecordsListFragment;
+import com.example.anass.audiorecorder.Fragments.RecordFragmentVoyant;
 import com.example.anass.audiorecorder.Models.RecordingItem;
 import com.example.anass.audiorecorder.R;
 
@@ -114,6 +115,8 @@ public class FileViewerAdapterVoyant extends RecyclerView.Adapter<FileViewerAdap
                                     return true;
                                 case R.id.deleteRecord:
                                     recordRepository.deleteRecord(recordingItem);
+                                    activity.navigateTo(RecordFragmentVoyant.newInstance());
+                                    return true;
                             }
                             return true;
                         }
@@ -165,5 +168,6 @@ public class FileViewerAdapterVoyant extends RecyclerView.Adapter<FileViewerAdap
         this.liste.addAll(liste);
         notifyDataSetChanged();
     }
+
 
 }

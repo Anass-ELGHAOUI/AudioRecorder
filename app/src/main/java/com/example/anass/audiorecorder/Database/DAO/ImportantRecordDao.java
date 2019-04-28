@@ -1,6 +1,7 @@
 package com.example.anass.audiorecorder.Database.DAO;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
@@ -16,5 +17,8 @@ public interface ImportantRecordDao {
 
     @Query("SELECT * FROM ImportantRecord WHERE original_record_id = :recordId")
     List<ImportantRecord> getImportantRecord(int recordId);
+
+    @Delete
+    void deleteImportantRecord(ImportantRecord importantRecord);
 
 }

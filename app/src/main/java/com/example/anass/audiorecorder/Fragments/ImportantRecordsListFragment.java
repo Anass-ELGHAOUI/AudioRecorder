@@ -22,6 +22,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ImportantRecordsListFragment extends Fragment implements OnLoadCompleted {
 
@@ -46,7 +47,6 @@ public class ImportantRecordsListFragment extends Fragment implements OnLoadComp
         return fragment;
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -70,6 +70,11 @@ public class ImportantRecordsListFragment extends Fragment implements OnLoadComp
         RecyclerViewManager.configureRecycleView(activity, mainRecycler);
         mainRecycler.setAdapter(adapter);
         getData();
+    }
+
+    @OnClick(R.id.button_add_record_imp)
+    public void adjclick() {
+        activity.navigateTo(RecordFragment.newInstance());
     }
 
     @Override

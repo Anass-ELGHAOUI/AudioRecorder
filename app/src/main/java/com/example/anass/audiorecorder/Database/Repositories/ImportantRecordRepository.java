@@ -28,6 +28,11 @@ public class ImportantRecordRepository {
         new addRecordAsyncTask(importantRecordDao).execute(importantRecord);
     }
 
+    public void deleteImportantRecord(ImportantRecord importantRecord) {
+        new deleteRecordAsyncTask(importantRecordDao).execute(importantRecord);
+    }
+
+
     private static class addRecordAsyncTask extends AsyncTask<ImportantRecord, Void, Void> {
         private ImportantRecordDao importantRecordDao;
 
@@ -43,6 +48,23 @@ public class ImportantRecordRepository {
             return null;
         }
     }
+
+    private static class deleteRecordAsyncTask extends AsyncTask<ImportantRecord, Void, Void> {
+        private ImportantRecordDao importantRecordDao;
+
+        private deleteRecordAsyncTask(ImportantRecordDao importantRecordDao) {
+            this.importantRecordDao = importantRecordDao;
+        }
+
+        @Override
+        protected Void doInBackground(ImportantRecord... recordingItems) {
+            importantRecordDao.deleteImportantRecord(recordingItems[0]);
+            Log.i("IMPORTANT RECORD ADDED", recordingItems[0].getRecordId() + " ");
+
+            return null;
+        }
+    }
+
 
     public static class getRecordsAsyncTask extends AsyncTask<Integer, Void, List<ImportantRecord>> {
 

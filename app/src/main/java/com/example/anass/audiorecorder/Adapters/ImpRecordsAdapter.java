@@ -14,9 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.anass.audiorecorder.Activities.MainActivity;
+import com.example.anass.audiorecorder.Database.DataBase;
+import com.example.anass.audiorecorder.Database.Repositories.ImportantRecordRepository;
+import com.example.anass.audiorecorder.Database.Repositories.RecordRepository;
 import com.example.anass.audiorecorder.Fragments.ImportantRecordsListFragment;
 import com.example.anass.audiorecorder.Helper.Utils;
 import com.example.anass.audiorecorder.Models.ImportantRecord;
@@ -38,6 +40,10 @@ public class ImpRecordsAdapter extends RecyclerView.Adapter<ImpRecordsAdapter.Re
     private RecordingItem recordingItem;
     public static final String LOG_TAG = "ImportantRecordAdapter";
 
+    DataBase mDatabase;
+    static ImportantRecordRepository recordRepository;
+
+
     public ImpRecordsAdapter(MainActivity activity, List<ImportantRecord> liste) {
         super();
         this.liste = new ArrayList<>();
@@ -50,6 +56,9 @@ public class ImpRecordsAdapter extends RecyclerView.Adapter<ImpRecordsAdapter.Re
         this.recordingItem = recordingItem;
         this.liste = new ArrayList<>();
         this.activity = activity;
+        mDatabase = DataBase.getInstance(activity.getApplicationContext());
+        recordRepository = new ImportantRecordRepository(activity.getApplication());
+
     }
 
     @Override
@@ -68,6 +77,7 @@ public class ImpRecordsAdapter extends RecyclerView.Adapter<ImpRecordsAdapter.Re
         holder.mPath = recordingItem.getFilePath();
         holder.mRecordStart = recordingItem.getStart();
         holder.mImportantRecordEnd = item.getStopTime();
+        holder.recordingItem = recordingItem;
        /* holder.vDateAdded.setText(
                 DateUtils.formatDateTime(
                         activity.getApplicationContext(),
@@ -80,11 +90,11 @@ public class ImpRecordsAdapter extends RecyclerView.Adapter<ImpRecordsAdapter.Re
     @Override
     public RecordingsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.record_item, parent, false);
-        return new RecordingsViewHolder(itemView, activity.getApplicationContext());
+        return new RecordingsViewHolder(itemView, activity);
     }
 
     public static class RecordingsViewHolder extends RecyclerView.ViewHolder {
-        private Context activity;
+        private MainActivity activity;
         protected TextView vName;
         protected TextView vLength;
         protected TextView vDateAdded;
@@ -92,32 +102,39 @@ public class ImpRecordsAdapter extends RecyclerView.Adapter<ImpRecordsAdapter.Re
         protected long mImportantRecordEnd;
         protected long mRecordStart;
         protected String mPath;
+        protected ImportantRecord importantRecord;
+        protected RecordingItem recordingItem;
         static protected MediaPlayer mediaPlayer;
 
-        public RecordingsViewHolder(View v, final Context context) {
+        public RecordingsViewHolder(View v, final MainActivity activity) {
             super(v);
             vName = v.findViewById(R.id.file_name_text);
             vLength = v.findViewById(R.id.file_length_text);
             vDateAdded = v.findViewById(R.id.file_date_added_text);
-            this.activity = context;
+            this.activity = activity;
 
             v.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    PopupMenu popupMenu = new PopupMenu(context.getApplicationContext(), v);
+                    PopupMenu popupMenu = new PopupMenu(activity.getApplicationContext(), v);
                     popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
                             switch (item.getItemId()) {
-                                case R.id.shareRecord:
+                                case R.id.shareImpRecord:
                                     Intent shareIntent = new Intent();
                                     shareIntent.setAction(Intent.ACTION_SEND);
                                     StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
                                     StrictMode.setVmPolicy(builder.build());
                                     shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(mPath)));
                                     shareIntent.setType("audio/mp4");
-                                    context.startActivity(Intent.createChooser(shareIntent, "Send to"));
+                                    activity.startActivity(Intent.createChooser(shareIntent, "Send to"));
                                     return true;
+                                case R.id.deleteImpRecord:
+                                    recordRepository.deleteImportantRecord(importantRecord);
+                                    activity.navigateTo(ImportantRecordsListFragment.newInstance(importantRecord.getRecordId(),recordingItem));
+                                    return true;
+
                             }
                             return true;
                         }
@@ -143,12 +160,12 @@ public class ImpRecordsAdapter extends RecyclerView.Adapter<ImpRecordsAdapter.Re
 
                     try {
                         Log.e(LOG_TAG, mPath);
-                        mediaPlayer.setDataSource(context.getApplicationContext(), Uri.parse(mPath));
-                        Utils.makeToast(activity,""+(mImportantRecordStart - mRecordStart));
+                        mediaPlayer.setDataSource(activity.getApplicationContext(), Uri.parse(mPath));
+                        Utils.makeToast(activity, "" + (mImportantRecordStart - mRecordStart));
                         mediaPlayer.prepare();
                         mediaPlayer.seekTo((int) (mImportantRecordStart - mRecordStart));
                         mediaPlayer.start();
-                        new CountDownTimer(mImportantRecordEnd-mImportantRecordStart,1000) {
+                        new CountDownTimer(mImportantRecordEnd - mImportantRecordStart, 1000) {
 
                             @Override
                             public void onTick(long millisUntilFinished) {
@@ -159,8 +176,7 @@ public class ImpRecordsAdapter extends RecyclerView.Adapter<ImpRecordsAdapter.Re
                             @Override
                             public void onFinish() {
                                 // TODO Auto-generated method stub
-                                if(mediaPlayer.isPlaying())
-                                {
+                                if (mediaPlayer.isPlaying()) {
                                     mediaPlayer.stop();
                                 }
 
