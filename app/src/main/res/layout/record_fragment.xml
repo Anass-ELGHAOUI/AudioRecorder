@@ -99,6 +99,6 @@
             android:fontFamily="sans-serif-condensed"
             android:layout_above="@+id/btnRecord"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="60dp" />
+            android:layout_marginBottom="80dp" />
     </RelativeLayout>
 </LinearLayout>

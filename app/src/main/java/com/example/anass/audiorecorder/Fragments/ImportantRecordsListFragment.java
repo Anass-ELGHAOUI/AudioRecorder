@@ -15,6 +15,7 @@ import com.example.anass.audiorecorder.Database.Repositories.ImportantRecordRepo
 import com.example.anass.audiorecorder.Helper.OnLoadCompleted;
 import com.example.anass.audiorecorder.Managers.RecyclerViewManager;
 import com.example.anass.audiorecorder.Models.ImportantRecord;
+import com.example.anass.audiorecorder.Models.RecordingItem;
 import com.example.anass.audiorecorder.R;
 
 import java.util.List;
@@ -32,15 +33,15 @@ public class ImportantRecordsListFragment extends Fragment implements OnLoadComp
     ImportantRecordRepository.getRecordsAsyncTask recordsAsyncTask;
     DataBase db;
     private int idRecord;
-    private String pathRecord;
+    private RecordingItem recordingItem;
     public static final String ARGS_ID = "id_record";
-    public static final String ARGS_PATH = "path_record";
+    public static final String ARGS_ITEM = "item_record";
 
-    public static ImportantRecordsListFragment newInstance(int idRecord, String pathRecord) {
+    public static ImportantRecordsListFragment newInstance(int idRecord, RecordingItem recordingItem) {
         ImportantRecordsListFragment fragment = new ImportantRecordsListFragment();
         Bundle args = new Bundle();
         args.putInt(ARGS_ID, idRecord);
-        args.putString(ARGS_PATH, pathRecord);
+        args.putSerializable(ARGS_ITEM, recordingItem);
         fragment.setArguments(args);
         return fragment;
     }
@@ -64,8 +65,8 @@ public class ImportantRecordsListFragment extends Fragment implements OnLoadComp
 
     public void init() {
         idRecord = getArguments().getInt(ARGS_ID);
-        pathRecord = getArguments().getString(ARGS_PATH);
-        adapter = new ImpRecordsAdapter(activity,pathRecord);
+        recordingItem = (RecordingItem) getArguments().getSerializable(ARGS_ITEM);
+        adapter = new ImpRecordsAdapter(activity,recordingItem);
         RecyclerViewManager.configureRecycleView(activity, mainRecycler);
         mainRecycler.setAdapter(adapter);
         getData();

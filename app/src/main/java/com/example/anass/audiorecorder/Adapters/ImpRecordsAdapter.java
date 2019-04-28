@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.anass.audiorecorder.Activities.MainActivity;
 import com.example.anass.audiorecorder.Models.ImportantRecord;
+import com.example.anass.audiorecorder.Models.RecordingItem;
 import com.example.anass.audiorecorder.R;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 public class ImpRecordsAdapter extends RecyclerView.Adapter<ImpRecordsAdapter.RecordingsViewHolder> {
     List<ImportantRecord> liste;
     MainActivity activity;
-    private String recordPath;
+    private RecordingItem recordingItem;
 
     public ImpRecordsAdapter(MainActivity activity, List<ImportantRecord> liste) {
         super();
@@ -28,9 +29,9 @@ public class ImpRecordsAdapter extends RecyclerView.Adapter<ImpRecordsAdapter.Re
         this.activity = activity;
     }
 
-    public ImpRecordsAdapter(MainActivity activity, String recordPath) {
+    public ImpRecordsAdapter(MainActivity activity, RecordingItem recordingItem) {
         super();
-        this.recordPath = recordPath;
+        this.recordingItem = recordingItem;
         this.liste = new ArrayList<>();
         this.activity = activity;
     }

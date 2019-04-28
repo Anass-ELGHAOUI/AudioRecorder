@@ -42,7 +42,7 @@ public class RecordingService extends Service implements OnLoadCompleted {
     private MediaRecorder mRecorder = null;
 
     private long mStartingTimeMillis = 0;
-    private long mElapsedMillis = 0;
+    private long mEndingTimeMillis = 0;
     private int mElapsedSeconds = 0;
     private OnTimerChangedListener onTimerChangedListener = null;
     private static final SimpleDateFormat mTimerFormat = new SimpleDateFormat("mm:ss", Locale.getDefault());
@@ -56,7 +56,6 @@ public class RecordingService extends Service implements OnLoadCompleted {
 
     private RecordRepository.getRecordsAsyncTask getRecordsAsyncTask;
 
-    private ImportantRecord mImportantRecord;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -151,7 +150,7 @@ public class RecordingService extends Service implements OnLoadCompleted {
 
         try {
             mRecorder.stop();
-            mElapsedMillis = (System.currentTimeMillis() - mStartingTimeMillis);
+            mEndingTimeMillis = System.currentTimeMillis();
             mRecorder.release();
             Toast.makeText(this, getString(R.string.toast_recording_finish) + " " + mFilePath, Toast.LENGTH_LONG).show();
 
@@ -168,7 +167,7 @@ public class RecordingService extends Service implements OnLoadCompleted {
 
         try {
             //mDatabase.addRecording(mFileName, mFilePath, mElapsedMillis);
-            mRecordRepository.addRecord(new RecordingItem(mFileName, mFilePath, mElapsedMillis));
+            mRecordRepository.addRecord(new RecordingItem(mFileName, mFilePath, mStartingTimeMillis, mEndingTimeMillis));
             getRecordsAsyncTask = new RecordRepository.getRecordsAsyncTask(mRecordRepository.getRecordDao(), this);
             getRecordsAsyncTask.execute();
         } catch (Exception e) {

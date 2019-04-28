@@ -54,7 +54,7 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
     public void onBindViewHolder(final RecordingsViewHolder holder, int position) {
 
         RecordingItem item = getItem(position);
-        long itemDuration = item.getLength();
+        long itemDuration = item.getEnd()- item.getStart();
 
         long minutes = TimeUnit.MILLISECONDS.toMinutes(itemDuration);
         long seconds = TimeUnit.MILLISECONDS.toSeconds(itemDuration)
@@ -163,7 +163,7 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
                         int mPosition = getAdapterPosition();
                         Log.i(LOG_TAG,"ADAPTER POSITION: " + mPosition);
                         Log.i(LOG_TAG,"Path: " + privateList.get(mPosition).getFilePath());
-                        activity.navigateTo(ImportantRecordsListFragment.newInstance(mPosition+1,privateList.get(mPosition).getFilePath()));
+                        activity.navigateTo(ImportantRecordsListFragment.newInstance(mPosition+1,privateList.get(mPosition)));
                     }
 
                 }
