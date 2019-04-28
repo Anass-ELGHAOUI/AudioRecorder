@@ -10,7 +10,7 @@ import com.example.anass.audiorecorder.Database.DAO.RecordDao;
 import com.example.anass.audiorecorder.Models.ImportantRecord;
 import com.example.anass.audiorecorder.Models.RecordingItem;
 
-@Database(entities = {RecordingItem.class, ImportantRecord.class}, version = 3, exportSchema = false)
+@Database(entities = {RecordingItem.class, ImportantRecord.class}, version = 4, exportSchema = false)
 public abstract class DataBase extends RoomDatabase {
 
     private static DataBase mInstance;

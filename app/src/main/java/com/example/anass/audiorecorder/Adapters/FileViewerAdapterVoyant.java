@@ -1,8 +1,9 @@
 package com.example.anass.audiorecorder.Adapters;
 
-import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.speech.tts.TextToSpeech;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.anass.audiorecorder.Activities.MainActivity;
-import com.example.anass.audiorecorder.Models.ImportantRecord;
 import com.example.anass.audiorecorder.Models.RecordingItem;
 import com.example.anass.audiorecorder.R;
 
@@ -20,74 +20,66 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class ImpRecordsAdapter extends RecyclerView.Adapter<ImpRecordsAdapter.RecordingsViewHolder> {
-    List<ImportantRecord> liste;
-    MainActivity activity;
-    private RecordingItem recordingItem;
-    public static final String LOG_TAG = "ImportantRecordAdapter";
+public class FileViewerAdapterVoyant extends RecyclerView.Adapter<FileViewerAdapterVoyant.RecordingsViewHolder> {
 
-    public ImpRecordsAdapter(MainActivity activity, List<ImportantRecord> liste) {
+    List<RecordingItem> liste;
+    MainActivity activity;
+    private static final String LOG_TAG = "FileViewerAdapterVoyant";
+
+    public FileViewerAdapterVoyant(MainActivity activity, List<RecordingItem> liste) {
         super();
         this.liste = new ArrayList<>();
         this.liste.addAll(liste);
         this.activity = activity;
     }
 
-    public ImpRecordsAdapter(MainActivity activity, RecordingItem recordingItem) {
+    public FileViewerAdapterVoyant(MainActivity activity) {
         super();
-        this.recordingItem = recordingItem;
         this.liste = new ArrayList<>();
         this.activity = activity;
     }
 
     @Override
-    public void onBindViewHolder(final RecordingsViewHolder holder, int position) {
+    public FileViewerAdapterVoyant.RecordingsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.record_item, parent, false);
+        return new FileViewerAdapterVoyant.RecordingsViewHolder(itemView, activity, liste);
+    }
 
-        ImportantRecord item = getItem(position);
-        long itemDuration = item.getStopTime() - item.getStartTime();
+    @Override
+    public void onBindViewHolder(@NonNull RecordingsViewHolder holder, int position) {
+        RecordingItem item = getItem(position);
+        long itemDuration = item.getEnd()- item.getStart();
 
         long minutes = TimeUnit.MILLISECONDS.toMinutes(itemDuration);
         long seconds = TimeUnit.MILLISECONDS.toSeconds(itemDuration)
                 - TimeUnit.MINUTES.toSeconds(minutes);
 
-        holder.vName.setText("Important " + (position + 1));
+        holder.vName.setText(item.getName());
         holder.vLength.setText(String.format("%02d:%02d", minutes, seconds));
-        holder.mImportantRecordStart = item.getStartTime();
-        holder.mPath = recordingItem.getFilePath();
-        holder.mRecordStart = recordingItem.getStart();
-       /* holder.vDateAdded.setText(
-                DateUtils.formatDateTime(
-                        activity.getApplicationContext(),
-                        item.getTime(),
-                        DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_YEAR
-                )
-        ); */
-    }
+        holder.vFilePath.setText(item.getFilePath());
 
-    @Override
-    public RecordingsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.record_item, parent, false);
-        return new RecordingsViewHolder(itemView, activity.getApplicationContext());
     }
 
     public static class RecordingsViewHolder extends RecyclerView.ViewHolder {
-        private Context activity;
+        private MainActivity activity;
         protected TextView vName;
         protected TextView vLength;
         protected TextView vDateAdded;
-        protected long mImportantRecordStart;
-        protected long mRecordStart;
-        protected String mPath;
-        protected MediaPlayer mediaPlayer;
+        protected TextView vFilePath;
+        private MediaPlayer mediaPlayer;
+        private List<RecordingItem> privateList;
 
-        public RecordingsViewHolder(View v, final Context context) {
+
+        public RecordingsViewHolder(View v, final MainActivity context, final List<RecordingItem> privateList) {
             super(v);
             vName = v.findViewById(R.id.file_name_text);
             vLength = v.findViewById(R.id.file_length_text);
             vDateAdded = v.findViewById(R.id.file_date_added_text);
+            vFilePath = v.findViewById(R.id.file_path_text);
             this.activity = context;
-            v.setOnClickListener(new View.OnClickListener() {
+            this.privateList = privateList;
 
+            v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mediaPlayer != null && mediaPlayer.isPlaying()) {
@@ -100,8 +92,8 @@ public class ImpRecordsAdapter extends RecyclerView.Adapter<ImpRecordsAdapter.Re
                     mediaPlayer = new MediaPlayer();
 
                     try {
-                        mediaPlayer.setDataSource(context.getApplicationContext(), Uri.parse(mPath));
-                        mediaPlayer.seekTo((int) (mRecordStart - mImportantRecordStart));
+                        mediaPlayer.setDataSource(context.getApplicationContext(), Uri.parse(vFilePath.getText().toString()));
+
                         mediaPlayer.prepare();
                         mediaPlayer.start();
                     } catch (IOException e) {
@@ -120,14 +112,13 @@ public class ImpRecordsAdapter extends RecyclerView.Adapter<ImpRecordsAdapter.Re
         return liste.size();
     }
 
-    public ImportantRecord getItem(int position) {
+    public RecordingItem getItem(int position) {
         return liste.get(position);
     }
 
-    public void addAllItems(List<ImportantRecord> liste) {
+    public void addAllItems(List<RecordingItem> liste) {
         this.liste.addAll(liste);
         notifyDataSetChanged();
     }
+
 }
-
-

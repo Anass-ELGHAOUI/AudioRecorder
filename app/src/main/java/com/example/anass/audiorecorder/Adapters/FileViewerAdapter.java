@@ -29,7 +29,7 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by Anass on 04/16/2019.
+ * Created by Anass & Abderrahim & Oussama on 04/16/2019.
  */
 public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.RecordingsViewHolder> {
 
