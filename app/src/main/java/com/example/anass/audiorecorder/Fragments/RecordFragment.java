@@ -15,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
@@ -142,7 +141,7 @@ public class RecordFragment extends Fragment implements OnLoadCompleted {
     public void StopImprtantRecord() {
         if (mImportantRecord != null) {
             mImportantRecord.setStopTime(System.currentTimeMillis());
-            mImportantRecord.setRecordId(lastIdAsyncTask.getLastId()+1);
+            mImportantRecord.setRecordId(lastIdAsyncTask.getLastId() + 1);
             mImportantRecordRepository.addImportantRecord(mImportantRecord);
             startEvaluation.setVisibility(View.VISIBLE);
             StopEvaluation.setVisibility(View.GONE);

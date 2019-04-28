@@ -1,11 +1,7 @@
 package com.example.anass.audiorecorder.Adapters;
 
-import android.arch.persistence.room.Database;
-import android.content.Context;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.provider.ContactsContract;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,11 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.anass.audiorecorder.Activities.MainActivity;
-import com.example.anass.audiorecorder.Database.DataBase;
-import com.example.anass.audiorecorder.Database.Repositories.RecordRepository;
 import com.example.anass.audiorecorder.Fragments.ImportantRecordsListFragment;
 import com.example.anass.audiorecorder.Models.RecordingItem;
 import com.example.anass.audiorecorder.R;
@@ -54,7 +47,7 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
     public void onBindViewHolder(final RecordingsViewHolder holder, int position) {
 
         RecordingItem item = getItem(position);
-        long itemDuration = item.getEnd()- item.getStart();
+        long itemDuration = item.getEnd() - item.getStart();
 
         long minutes = TimeUnit.MILLISECONDS.toMinutes(itemDuration);
         long seconds = TimeUnit.MILLISECONDS.toSeconds(itemDuration)
@@ -75,7 +68,7 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
     @Override
     public RecordingsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.record_item, parent, false);
-        return new RecordingsViewHolder(itemView, activity,liste);
+        return new RecordingsViewHolder(itemView, activity, liste);
     }
 
     public static class RecordingsViewHolder extends RecyclerView.ViewHolder {
@@ -83,19 +76,18 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
         protected TextView vName;
         protected TextView vLength;
         protected TextView vDateAdded;
-        protected  TextView vFilePath;
+        protected TextView vFilePath;
         private TextToSpeech mTTS;
         private boolean isClicked = false;
         private MediaPlayer mediaPlayer;
         private List<RecordingItem> privateList;
 
 
-
         public RecordingsViewHolder(View v, final MainActivity context, final List<RecordingItem> privateList) {
             super(v);
-            vName =  v.findViewById(R.id.file_name_text);
+            vName = v.findViewById(R.id.file_name_text);
             vLength = v.findViewById(R.id.file_length_text);
-            vDateAdded =  v.findViewById(R.id.file_date_added_text);
+            vDateAdded = v.findViewById(R.id.file_date_added_text);
             vFilePath = v.findViewById(R.id.file_path_text);
             this.activity = context;
             this.privateList = privateList;
@@ -137,7 +129,7 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
                     } else {
                         mediaPlayer = null;
                     }
-                    if(!isClicked){
+                    if (!isClicked) {
 
                         mTTS = new TextToSpeech(activity.getApplicationContext(), new TextToSpeech.OnInitListener() {
                             @Override
@@ -158,12 +150,12 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
                         });
                         isClicked = true;
                         Log.i(LOG_TAG, "isClicked: " + isClicked);
-                    }else if (isClicked){
+                    } else if (isClicked) {
                         isClicked = false;
                         int mPosition = getAdapterPosition();
-                        Log.i(LOG_TAG,"ADAPTER POSITION: " + mPosition);
-                        Log.i(LOG_TAG,"Path: " + privateList.get(mPosition).getFilePath());
-                        activity.navigateTo(ImportantRecordsListFragment.newInstance(mPosition+1,privateList.get(mPosition)));
+                        Log.i(LOG_TAG, "ADAPTER POSITION: " + mPosition);
+                        Log.i(LOG_TAG, "Path: " + privateList.get(mPosition).getFilePath());
+                        activity.navigateTo(ImportantRecordsListFragment.newInstance(mPosition + 1, privateList.get(mPosition)));
                     }
 
                 }

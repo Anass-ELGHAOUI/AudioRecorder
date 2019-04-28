@@ -1,5 +1,6 @@
 package com.example.anass.audiorecorder.Fragments;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.os.Build;
@@ -63,6 +64,7 @@ public class ModeChoiceFragment extends Fragment {
         swipeConfiguration();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void swipeConfiguration() {
         ivChoice.setOnTouchListener(new OnSwipeTouchListener(activity) {
             public void onSwipeTop() {
@@ -78,6 +80,7 @@ public class ModeChoiceFragment extends Fragment {
             }
 
             public void onSwipeLeft() {
+                //activity.navigateTo(RecordFragmentVoyant.newInstance());
                 activity.navigateTo(RecordFragment.newInstance());
                 if (mTTS.isSpeaking()) {
                     mTTS.stop();
