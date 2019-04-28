@@ -80,8 +80,8 @@ public class ModeChoiceFragment extends Fragment {
             }
 
             public void onSwipeLeft() {
-                //activity.navigateTo(RecordFragmentVoyant.newInstance());
-                activity.navigateTo(RecordFragment.newInstance());
+                activity.navigateTo(RecordFragmentVoyant.newInstance());
+                //activity.navigateTo(RecordFragment.newInstance());
                 if (mTTS.isSpeaking()) {
                     mTTS.stop();
                     mTTS.shutdown();

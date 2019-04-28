@@ -29,6 +29,10 @@ public class RecordRepository {
         new addRecordAsyncTask(mRecordDao).execute(mRecordingItem);
     }
 
+    public void deleteRecord(RecordingItem mRecordingItem){
+        new deleteRecordAsyncTask(mRecordDao).execute(mRecordingItem);
+    }
+
     public void deleteAllRecords() {
         new deleteRecordsAsyncTask(mRecordDao).execute();
     }
@@ -44,6 +48,21 @@ public class RecordRepository {
         protected Void doInBackground(RecordingItem... recordingItems) {
             mRecordDao.addRecord(recordingItems[0]);
             Log.i("ADDED", recordingItems[0].getFilePath());
+            return null;
+        }
+    }
+
+    private static class deleteRecordAsyncTask extends AsyncTask<RecordingItem, Void, Void> {
+        private RecordDao mRecordDao;
+
+        private deleteRecordAsyncTask(RecordDao mRecordDao) {
+            this.mRecordDao = mRecordDao;
+        }
+
+        @Override
+        protected Void doInBackground(RecordingItem... recordingItems) {
+            mRecordDao.deleteRecord(recordingItems[0]);
+            Log.i("Deleted", recordingItems[0].getFilePath());
             return null;
         }
     }

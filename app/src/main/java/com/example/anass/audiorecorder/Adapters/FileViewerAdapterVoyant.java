@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.example.anass.audiorecorder.Activities.MainActivity;
 import com.example.anass.audiorecorder.Database.DataBase;
 import com.example.anass.audiorecorder.Database.Repositories.RecordRepository;
+import com.example.anass.audiorecorder.Fragments.ImportantRecordsListFragment;
 import com.example.anass.audiorecorder.Models.RecordingItem;
 import com.example.anass.audiorecorder.R;
 
@@ -32,7 +33,7 @@ public class FileViewerAdapterVoyant extends RecyclerView.Adapter<FileViewerAdap
     MainActivity activity;
     private static final String LOG_TAG = "FileViewerAdapterVoyant";
     DataBase mDatabase;
-    RecordRepository recordRepository;
+    static RecordRepository recordRepository;
 
     public FileViewerAdapterVoyant(MainActivity activity, List<RecordingItem> liste) {
         super();
@@ -58,7 +59,7 @@ public class FileViewerAdapterVoyant extends RecyclerView.Adapter<FileViewerAdap
     @Override
     public void onBindViewHolder(@NonNull RecordingsViewHolder holder, int position) {
         RecordingItem item = getItem(position);
-        long itemDuration = item.getEnd()- item.getStart();
+        long itemDuration = item.getEnd() - item.getStart();
 
         long minutes = TimeUnit.MILLISECONDS.toMinutes(itemDuration);
         long seconds = TimeUnit.MILLISECONDS.toSeconds(itemDuration)
@@ -67,7 +68,7 @@ public class FileViewerAdapterVoyant extends RecyclerView.Adapter<FileViewerAdap
         holder.vName.setText(item.getName());
         holder.vLength.setText(String.format("%02d:%02d", minutes, seconds));
         holder.vFilePath.setText(item.getFilePath());
-
+        holder.recordingItem = item;
     }
 
     public static class RecordingsViewHolder extends RecyclerView.ViewHolder {
@@ -76,6 +77,7 @@ public class FileViewerAdapterVoyant extends RecyclerView.Adapter<FileViewerAdap
         protected TextView vLength;
         protected TextView vDateAdded;
         protected TextView vFilePath;
+        protected RecordingItem recordingItem;
         private MediaPlayer mediaPlayer;
         private List<RecordingItem> privateList;
 
@@ -106,6 +108,12 @@ public class FileViewerAdapterVoyant extends RecyclerView.Adapter<FileViewerAdap
                                     shareIntent.setType("audio/mp4");
                                     context.startActivity(Intent.createChooser(shareIntent, "Send to"));
                                     return true;
+                                case R.id.importantRecords:
+                                    int mPosition = getAdapterPosition();
+                                    activity.navigateTo(ImportantRecordsListFragment.newInstance(mPosition + 1, privateList.get(mPosition)));
+                                    return true;
+                                case R.id.deleteRecord:
+                                    recordRepository.deleteRecord(recordingItem);
                             }
                             return true;
                         }
