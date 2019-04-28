@@ -146,10 +146,6 @@ public class RecordRepository {
         }
     }
 
-    public int getLastID() {
-        return mRecordDao.getLastId();
-    }
-
     public static class getLastIdAsyncTask extends AsyncTask<Void, Void, Integer> {
 
         private RecordDao recordDao;
@@ -178,6 +174,5 @@ public class RecordRepository {
             return recordDao.getLastId();
         }
     }
-
 
 }

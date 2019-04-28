@@ -75,7 +75,7 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
     @Override
     public RecordingsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.record_item, parent, false);
-        return new RecordingsViewHolder(itemView, activity);
+        return new RecordingsViewHolder(itemView, activity,liste);
     }
 
     public static class RecordingsViewHolder extends RecyclerView.ViewHolder {
@@ -87,16 +87,18 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
         private TextToSpeech mTTS;
         private boolean isClicked = false;
         private MediaPlayer mediaPlayer;
+        private List<RecordingItem> privateList;
 
 
 
-        public RecordingsViewHolder(View v, final MainActivity context) {
+        public RecordingsViewHolder(View v, final MainActivity context, final List<RecordingItem> privateList) {
             super(v);
             vName =  v.findViewById(R.id.file_name_text);
             vLength = v.findViewById(R.id.file_length_text);
             vDateAdded =  v.findViewById(R.id.file_date_added_text);
             vFilePath = v.findViewById(R.id.file_path_text);
             this.activity = context;
+            this.privateList = privateList;
 
             v.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
@@ -158,8 +160,10 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
                         Log.i(LOG_TAG, "isClicked: " + isClicked);
                     }else if (isClicked){
                         isClicked = false;
-                        Log.i(LOG_TAG,"ADAPTER POSITION: " + getAdapterPosition());
-                        activity.navigateTo(ImportantRecordsListFragment.newInstance(getAdapterPosition()));
+                        int mPosition = getAdapterPosition();
+                        Log.i(LOG_TAG,"ADAPTER POSITION: " + mPosition);
+                        Log.i(LOG_TAG,"Path: " + privateList.get(mPosition).getFilePath());
+                        activity.navigateTo(ImportantRecordsListFragment.newInstance(mPosition+1,privateList.get(mPosition).getFilePath()));
                     }
 
                 }

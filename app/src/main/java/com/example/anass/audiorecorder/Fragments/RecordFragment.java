@@ -35,10 +35,9 @@ import com.melnykov.fab.FloatingActionButton;
 import java.io.File;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static butterknife.ButterKnife.bind;
-import static butterknife.ButterKnife.unbind;
 
 public class RecordFragment extends Fragment implements OnLoadCompleted {
 
@@ -61,10 +60,10 @@ public class RecordFragment extends Fragment implements OnLoadCompleted {
     FloatingActionButton mRecordButton;
 
     @Bind(R.id.btnStratEvaluation)
-    Button startEvaluation;
+    FloatingActionButton startEvaluation;
 
     @Bind(R.id.btnStopEvaluation)
-    Button StopEvaluation;
+    FloatingActionButton StopEvaluation;
 
     @Bind(R.id.chronometer)
     Chronometer mChronometer;
@@ -93,7 +92,7 @@ public class RecordFragment extends Fragment implements OnLoadCompleted {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.record_fragment, container, false);
-        bind(this, view);
+        ButterKnife.bind(this, view);
         mRecordRepository = new RecordRepository(getActivity().getApplication());
         mImportantRecordRepository = new ImportantRecordRepository(getActivity().getApplication());
         return view;
@@ -113,8 +112,8 @@ public class RecordFragment extends Fragment implements OnLoadCompleted {
         lastIdAsyncTask.execute();
 
         if (!mStartRecording) {
-            startEvaluation.setEnabled(false);
-            StopEvaluation.setEnabled(false);
+            startEvaluation.setVisibility(View.GONE);
+            StopEvaluation.setVisibility(View.GONE);
         }
     }
 
@@ -135,14 +134,18 @@ public class RecordFragment extends Fragment implements OnLoadCompleted {
         Log.i(TAG, "Important record started");
         mImportantRecord = new ImportantRecord();
         mImportantRecord.setStartTime(System.currentTimeMillis());
+        startEvaluation.setVisibility(View.GONE);
+        StopEvaluation.setVisibility(View.VISIBLE);
     }
 
     @OnClick(R.id.btnStopEvaluation)
     public void StopImprtantRecord() {
         if (mImportantRecord != null) {
             mImportantRecord.setStopTime(System.currentTimeMillis());
-            mImportantRecord.setRecordId(lastIdAsyncTask.getLastId() + 1);
+            mImportantRecord.setRecordId(lastIdAsyncTask.getLastId()+1);
             mImportantRecordRepository.addImportantRecord(mImportantRecord);
+            startEvaluation.setVisibility(View.VISIBLE);
+            StopEvaluation.setVisibility(View.GONE);
             Log.i(TAG, "Important Record Saved");
         }
     }
@@ -203,6 +206,8 @@ public class RecordFragment extends Fragment implements OnLoadCompleted {
 
             mRecordingPrompt.setText(getString(R.string.record_in_progress) + ".");
             mRecordPromptCount++;
+            startEvaluation.setVisibility(View.VISIBLE);
+
 
         } else {
             //stop recording
@@ -214,13 +219,9 @@ public class RecordFragment extends Fragment implements OnLoadCompleted {
             getActivity().stopService(intent);
             //allow the screen to turn off again once recording is finished
             getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            startEvaluation.setVisibility(View.GONE);
+            StopEvaluation.setVisibility(View.GONE);
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        unbind(this);
     }
 
     @Override

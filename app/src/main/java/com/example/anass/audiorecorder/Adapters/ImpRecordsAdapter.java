@@ -2,6 +2,7 @@ package com.example.anass.audiorecorder.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 public class ImpRecordsAdapter extends RecyclerView.Adapter<ImpRecordsAdapter.RecordingsViewHolder> {
     List<ImportantRecord> liste;
     MainActivity activity;
-    private int recordId;
+    private String recordPath;
 
     public ImpRecordsAdapter(MainActivity activity, List<ImportantRecord> liste) {
         super();
@@ -27,8 +28,9 @@ public class ImpRecordsAdapter extends RecyclerView.Adapter<ImpRecordsAdapter.Re
         this.activity = activity;
     }
 
-    public ImpRecordsAdapter(MainActivity activity) {
+    public ImpRecordsAdapter(MainActivity activity, String recordPath) {
         super();
+        this.recordPath = recordPath;
         this.liste = new ArrayList<>();
         this.activity = activity;
     }
@@ -45,7 +47,6 @@ public class ImpRecordsAdapter extends RecyclerView.Adapter<ImpRecordsAdapter.Re
 
         holder.vName.setText("Important " + (position + 1));
         holder.vLength.setText(String.format("%02d:%02d", minutes, seconds));
-        recordId = item.getRecordId();
        /* holder.vDateAdded.setText(
                 DateUtils.formatDateTime(
                         activity.getApplicationContext(),

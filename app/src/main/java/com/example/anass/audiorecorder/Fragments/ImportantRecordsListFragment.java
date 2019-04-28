@@ -32,12 +32,15 @@ public class ImportantRecordsListFragment extends Fragment implements OnLoadComp
     ImportantRecordRepository.getRecordsAsyncTask recordsAsyncTask;
     DataBase db;
     private int idRecord;
+    private String pathRecord;
     public static final String ARGS_ID = "id_record";
+    public static final String ARGS_PATH = "path_record";
 
-    public static ImportantRecordsListFragment newInstance(int idRecord) {
+    public static ImportantRecordsListFragment newInstance(int idRecord, String pathRecord) {
         ImportantRecordsListFragment fragment = new ImportantRecordsListFragment();
         Bundle args = new Bundle();
         args.putInt(ARGS_ID, idRecord);
+        args.putString(ARGS_PATH, pathRecord);
         fragment.setArguments(args);
         return fragment;
     }
@@ -60,10 +63,11 @@ public class ImportantRecordsListFragment extends Fragment implements OnLoadComp
     }
 
     public void init() {
-        adapter = new ImpRecordsAdapter(activity);
+        idRecord = getArguments().getInt(ARGS_ID);
+        pathRecord = getArguments().getString(ARGS_PATH);
+        adapter = new ImpRecordsAdapter(activity,pathRecord);
         RecyclerViewManager.configureRecycleView(activity, mainRecycler);
         mainRecycler.setAdapter(adapter);
-        idRecord = getArguments().getInt(ARGS_ID);
         getData();
     }
 
