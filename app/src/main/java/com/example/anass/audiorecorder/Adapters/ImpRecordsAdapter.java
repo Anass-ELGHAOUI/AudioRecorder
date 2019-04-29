@@ -161,7 +161,6 @@ public class ImpRecordsAdapter extends RecyclerView.Adapter<ImpRecordsAdapter.Re
                     try {
                         Log.e(LOG_TAG, mPath);
                         mediaPlayer.setDataSource(activity.getApplicationContext(), Uri.parse(mPath));
-                        Utils.makeToast(activity, "" + (mImportantRecordStart - mRecordStart));
                         mediaPlayer.prepare();
                         mediaPlayer.seekTo((int) (mImportantRecordStart - mRecordStart));
                         mediaPlayer.start();
