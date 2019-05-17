@@ -1,16 +1,13 @@
 package com.example.anass.audiorecorder.Helper;
 
-import android.Manifest;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.media.MediaRecorder;
 import android.os.IBinder;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
@@ -18,7 +15,6 @@ import android.widget.Toast;
 import com.example.anass.audiorecorder.Activities.MainActivity;
 import com.example.anass.audiorecorder.Database.Repositories.ImportantRecordRepository;
 import com.example.anass.audiorecorder.Database.Repositories.RecordRepository;
-import com.example.anass.audiorecorder.Models.ImportantRecord;
 import com.example.anass.audiorecorder.Models.RecordingItem;
 import com.example.anass.audiorecorder.R;
 
