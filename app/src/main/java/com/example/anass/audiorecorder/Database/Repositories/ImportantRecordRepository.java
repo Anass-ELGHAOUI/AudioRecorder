@@ -59,8 +59,7 @@ public class ImportantRecordRepository {
         @Override
         protected Void doInBackground(ImportantRecord... recordingItems) {
             importantRecordDao.deleteImportantRecord(recordingItems[0]);
-            Log.i("IMPORTANT RECORD ADDED", recordingItems[0].getRecordId() + " ");
-
+            Log.i("IMP REC DELETED", recordingItems[0].getRecordId() + " ");
             return null;
         }
     }

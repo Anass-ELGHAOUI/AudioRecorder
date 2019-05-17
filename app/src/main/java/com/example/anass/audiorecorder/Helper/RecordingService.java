@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.example.anass.audiorecorder.Activities.MainActivity;
 import com.example.anass.audiorecorder.Database.Repositories.ImportantRecordRepository;
 import com.example.anass.audiorecorder.Database.Repositories.RecordRepository;
-import com.example.anass.audiorecorder.Fragments.RecordFragment;
 import com.example.anass.audiorecorder.Models.RecordingItem;
 import com.example.anass.audiorecorder.R;
 
@@ -33,7 +32,7 @@ public class RecordingService extends Service implements OnLoadCompleted {
 
     private static final String LOG_TAG = "RecordingService";
 
-    private String mFileName = null;
+    private String mFileName = "";
     private String mFilePath = null;
 
     private MediaRecorder mRecorder = null;
@@ -81,9 +80,15 @@ public class RecordingService extends Service implements OnLoadCompleted {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if (intent.getStringExtra("fileName") != null){
+            mFileName = intent.getStringExtra("fileName");
+        } else if (intent.getStringExtra("recordName") != null) {
+            mFileName = intent.getStringExtra("recordName");
+        } else {
+            mFileName = "*";
+        }
 
         startRecording();
-
         return START_STICKY;
     }
 
@@ -102,13 +107,13 @@ public class RecordingService extends Service implements OnLoadCompleted {
         Log.i("startRecording", "started");
 
         mRecorder = new MediaRecorder();
-        mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        //mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        mRecorder.setAudioSource(MediaRecorder.AudioSource.VOICE_RECOGNITION) ;
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         mRecorder.setOutputFile(mFilePath);
         mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
         mRecorder.setAudioSamplingRate(44100);
         mRecorder.setAudioEncodingBitRate(192000);
-        //mRecorder.setAudioSource(MediaRecorder.AudioSource.VOICE_RECOGNITION) ;
         mRecorder.setAudioChannels(1);
 
        /* if (MySharedPreferences.getPrefHighQuality(this)) {
@@ -132,19 +137,16 @@ public class RecordingService extends Service implements OnLoadCompleted {
     public void setFileNameAndPath() {
         int count = 0;
         File f;
-        if(RecordFragment.recordName.equals("default")){
-            do {
-                count++;
-                mFilePath = getExternalCacheDir().getAbsolutePath();
-                mFileName = "Audio" + count;
-                mFilePath += "/" + mFileName + ".mp3";
-                f = new File(mFilePath);
-            } while (f.exists() && !f.isDirectory());
-        }else{
+
+        do {
+            count++;
             mFilePath = getExternalCacheDir().getAbsolutePath();
-            mFileName = RecordFragment.recordName;
+            if (mFileName.equals("*")) {
+                mFileName = "Audio" + count;
+            }
             mFilePath += "/" + mFileName + ".mp3";
-        }
+            f = new File(mFilePath);
+        } while (f.exists() && !f.isDirectory());
 
     }
 

@@ -96,9 +96,14 @@ public class RecordsListFragment extends Fragment implements OnLoadCompleted {
                             || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                         Log.e("TTS", "Language not supported");
                     } else {
-                        textToSpeechConverter("Il y'a " + items.size() + " enregistrements. Pour naviguer glissez à droite ou à gauche." +
-                                "Pour revenir au menu précédent glissez vers le bas. Pour séléctionner un record glissez vers le haut." +
-                                "Long clique pour écouter la consigne.");                    }
+                        if (recordsSize == 0) {
+                            textToSpeechConverter("Il n y'a aucun record. Glissez vers le bas pour revenir au menu précédent");
+                        } else {
+                            textToSpeechConverter("Il y'a " + items.size() + " enregistrements. Pour naviguer glissez à droite ou à gauche." +
+                                    "Pour revenir au menu précédent glissez vers le bas. Pour sélectionner un record glissez vers le haut." +
+                                    "Long clique pour écouter la consigne.");                    }
+
+                    }
                 } else {
                     Log.e("TTS", "Initialization failed");
                 }
@@ -112,38 +117,44 @@ public class RecordsListFragment extends Fragment implements OnLoadCompleted {
             public void onSwipeTop() {
                 if (mTTS.isSpeaking()) {
                     mTTS.stop();
+                }
+                if (recordsSize != 0) {
+                    if(recordIndex == -1) {
+                        recordIndex += 1;
+                    }
                     mTTS.shutdown();
+                    activity.navigateTo(NvDisplayRecordFragment.newInstance(items.get(recordIndex)));
+                } else {
+                    textToSpeechConverter("Il n y'a aucun record.");
                 }
-                if(recordIndex == -1) {
-                    recordIndex += 1;
-                }
-                activity.navigateTo(NvDisplayRecordFragment.newInstance(items.get(recordIndex)));
             }
             public void onSwipeRight() {
                 if (mTTS.isSpeaking()) {
                     mTTS.stop();
-                    mTTS.shutdown();
+                    //mTTS.shutdown();
                 }
                 recordIndex = (recordIndex + 1) % recordsSize;
                 textToSpeechConverter("Record " + (recordIndex + 1) + ". Titre du record: " + items.get(recordIndex).getName() + "." +
-                        " Pour séléctionner ce record glissez vers le haut.");
+                        " Pour sélectionner ce record glissez vers le haut.");
             }
             public void onSwipeLeft() {
                 if (mTTS.isSpeaking()) {
                     mTTS.stop();
-                    mTTS.shutdown();
+                    //mTTS.shutdown();
                 }
                 if (recordIndex == -1) {
                     recordIndex += 1;
                 }
-                recordIndex = (recordsSize + (recordIndex - 1)) % recordsSize;
-                textToSpeechConverter("Record " + (recordIndex + 1) + ". Titre du record: " + items.get(recordIndex).getName() + "." +
-                        " Pour séléctionner ce record glissez vers le haut.");
+                if (recordsSize != 0) {
+                    recordIndex = (recordsSize + (recordIndex - 1)) % recordsSize;
+                    textToSpeechConverter("Record " + (recordIndex + 1) + ". Titre du record: " + items.get(recordIndex).getName() + "." +
+                            " Pour sélectionner ce record glissez vers le haut.");
+                }
+
             }
             public void onSwipeBottom() {
                 if (mTTS.isSpeaking()) {
                     mTTS.stop();
-                    mTTS.shutdown();
                 }
                 activity.onBackPressed();
             }

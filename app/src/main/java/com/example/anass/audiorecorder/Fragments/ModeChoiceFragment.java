@@ -72,20 +72,21 @@ public class ModeChoiceFragment extends Fragment {
             }
 
             public void onSwipeRight() {
-                activity.navigateTo(NVChoiceFragment.newInstance());
                 if (mTTS.isSpeaking()) {
                     mTTS.stop();
                     mTTS.shutdown();
                 }
+                activity.navigateTo(NVChoiceFragment.newInstance());
             }
 
             public void onSwipeLeft() {
-                activity.navigateTo(RecordFragmentVoyant.newInstance());
+
                 //activity.navigateTo(RecordFragment.newInstance());
                 if (mTTS.isSpeaking()) {
                     mTTS.stop();
                     mTTS.shutdown();
                 }
+                activity.navigateTo(RecordFragmentVoyant.newInstance());
             }
 
             public void onSwipeBottom() {

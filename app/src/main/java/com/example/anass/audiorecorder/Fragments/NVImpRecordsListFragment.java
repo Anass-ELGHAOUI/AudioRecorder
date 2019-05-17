@@ -72,7 +72,7 @@ public class NVImpRecordsListFragment extends Fragment implements OnLoadComplete
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.i("Recycler fragment", "lanched");
+        Log.i("Recycler fragment", "lunched");
         activity = (MainActivity) getActivity();
         init();
     }
@@ -100,21 +100,19 @@ public class NVImpRecordsListFragment extends Fragment implements OnLoadComplete
             public void onSwipeRight() {
                 if (mTTS.isSpeaking()) {
                     mTTS.stop();
-                    mTTS.shutdown();
                 }
                 if(sizeList!=0) {
                     listPosition = (listPosition + 1) % sizeList;
-                    textToSpeechConverter("Record Important " + listPosition + ". pour choisir ce record glisser vers le haut, glisser vers la droite pour avancer, glisser vers la gauche pour revenir en arriére. glisser vers le bas pour retourner.");
+                    textToSpeechConverter("important record "+(listPosition+1)+" pour choisir le record glisser vers le haut.");
                 }
             }
             public void onSwipeLeft() {
                 if (mTTS.isSpeaking()) {
                     mTTS.stop();
-                    mTTS.shutdown();
                 }
                 if(sizeList!=0){
                     listPosition = (listPosition - 1 + sizeList )%sizeList;
-                    textToSpeechConverter("Record Important "+listPosition+". pour choisir ce record glisser vers le haut, glisser vers la droite pour avancer, glisser vers la gauche pour revenir en arriére. glisser vers le bas pour retourner.");
+                    textToSpeechConverter("important record "+(listPosition+1)+" pour choisir le record glisser vers le haut.");
                 }
             }
             public void onSwipeBottom() {
@@ -140,9 +138,10 @@ public class NVImpRecordsListFragment extends Fragment implements OnLoadComplete
                         Log.e("TTS", "Language not supported");
                     } else {
                         if(sizeList==0){
-                            textToSpeechConverter("pas de record important. glisser vers le bas pour retourner.");
+                            textToSpeechConverter("pas de record important. glisser vers le bas pour revenir au menu précédent.");
                         }else{
-                            textToSpeechConverter("Record Important "+listPosition+". pour choisir ce record glisser vers le haut, glisser vers la droite pour avancer, glisser vers la gauche pour revenir en arriére. glisser vers le bas pour retourner.");
+                            textToSpeechConverter("il y a "+sizeList+" records importants. pour naviguer glisser vers la droite ou la gauche, glisser vers le bas pour revenir au menu précédent." +
+                                    "important record "+(listPosition+1)+" pour choisir le record glisser vers le haut.");
                         }
 
                     }

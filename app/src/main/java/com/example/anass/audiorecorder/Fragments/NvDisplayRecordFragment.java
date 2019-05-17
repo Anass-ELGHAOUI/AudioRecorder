@@ -69,12 +69,12 @@ public class NvDisplayRecordFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.i(TAG, "Lunched");
-        item = (RecordingItem) savedInstanceState.getSerializable(key);
-        activity = (MainActivity) getActivity();
         init();
     }
 
     private void init() {
+        activity = (MainActivity) getActivity();
+        item = (RecordingItem) getArguments().getSerializable(key);
         recordsAsyncTask = new RecordRepository(activity.getApplication());
         textToSpeechConfiguration();
         swipeConfiguration();
@@ -106,9 +106,8 @@ public class NvDisplayRecordFragment extends Fragment {
             public void onSwipeTop() {
                 if (mTTS.isSpeaking()) {
                     mTTS.stop();
-                    mTTS.shutdown();
                 }
-                if (mediaPlayer.isPlaying()) {
+                if (mediaPlayer != null && mediaPlayer.isPlaying()) {
                     stopPlayingAndSetConsigne();
                 }
                 mediaPlayer = new MediaPlayer();
@@ -127,9 +126,8 @@ public class NvDisplayRecordFragment extends Fragment {
             public void onSwipeRight() {
                 if (mTTS.isSpeaking()) {
                     mTTS.stop();
-                    mTTS.shutdown();
                 }
-                if (mediaPlayer.isPlaying()) {
+                if (mediaPlayer != null && mediaPlayer.isPlaying()) {
                     stopPlayingAndSetConsigne();
                 } else {
                     activity.navigateTo(NVImpRecordsListFragment.newInstance(item.getId(), item));
@@ -140,9 +138,8 @@ public class NvDisplayRecordFragment extends Fragment {
             public void onSwipeLeft() {
                 if (mTTS.isSpeaking()) {
                     mTTS.stop();
-                    mTTS.shutdown();
                 }
-                if (mediaPlayer.isPlaying()) {
+                if (mediaPlayer != null && mediaPlayer.isPlaying()) {
                     stopPlayingAndSetConsigne();
                 } else {
                     recordsAsyncTask.deleteRecord(item);
@@ -154,9 +151,8 @@ public class NvDisplayRecordFragment extends Fragment {
             public void onSwipeBottom() {
                 if (mTTS.isSpeaking()) {
                     mTTS.stop();
-                    mTTS.shutdown();
                 }
-                if (mediaPlayer.isPlaying()) {
+                if (mediaPlayer != null && mediaPlayer.isPlaying()) {
                     stopPlayingAndSetConsigne();
                 } else {
                     activity.onBackPressed();

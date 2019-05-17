@@ -75,6 +75,7 @@ public class ImpRecordsAdapter extends RecyclerView.Adapter<ImpRecordsAdapter.Re
         holder.mRecordStart = recordingItem.getStart();
         holder.mImportantRecordEnd = item.getStopTime();
         holder.recordingItem = recordingItem;
+        holder.importantRecord = item;
        /* holder.vDateAdded.setText(
                 DateUtils.formatDateTime(
                         activity.getApplicationContext(),

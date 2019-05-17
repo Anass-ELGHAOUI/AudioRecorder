@@ -37,6 +37,7 @@ public class ImportantRecordsListFragment extends Fragment implements OnLoadComp
     private RecordingItem recordingItem;
     public static final String ARGS_ID = "id_record";
     public static final String ARGS_ITEM = "item_record";
+    private static final String TAG = "ImportantRecordsListFra";
 
     public static ImportantRecordsListFragment newInstance(int idRecord, RecordingItem recordingItem) {
         ImportantRecordsListFragment fragment = new ImportantRecordsListFragment();
@@ -85,6 +86,7 @@ public class ImportantRecordsListFragment extends Fragment implements OnLoadComp
 
     private void refreshRecyclerView() {
         List<ImportantRecord> recordingItems = recordsAsyncTask.getImportantRecords();
+        Log.i(TAG, "refreshRecyclerView: Number of Imp:" + recordingItems.size());
         if (recordingItems != null && recordingItems.size() > 0) {
             adapter.addAllItems(recordingItems);
         }

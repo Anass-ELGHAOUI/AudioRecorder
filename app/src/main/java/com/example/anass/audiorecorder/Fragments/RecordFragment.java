@@ -110,6 +110,7 @@ public class RecordFragment extends Fragment implements OnLoadCompleted {
     }
 
     public void init() {
+
         db = DataBase.getInstance(activity.getApplicationContext());
         lastIdAsyncTask = new RecordRepository.getLastIdAsyncTask(db.recordDao(), this);
         lastIdAsyncTask.execute();
@@ -149,7 +150,6 @@ public class RecordFragment extends Fragment implements OnLoadCompleted {
             mImportantRecordRepository.addImportantRecord(mImportantRecord);
             startEvaluation.setVisibility(View.VISIBLE);
             StopEvaluation.setVisibility(View.GONE);
-            Log.i(TAG, "Important Record Saved");
         }
     }
 
@@ -177,6 +177,7 @@ public class RecordFragment extends Fragment implements OnLoadCompleted {
     private void onRecord(boolean start) {
 
         Intent intent = new Intent(getActivity(), RecordingService.class);
+        intent.putExtra("recordName", this.recordName);
 
         if (start) {
             // start recording
@@ -229,6 +230,7 @@ public class RecordFragment extends Fragment implements OnLoadCompleted {
             getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             startEvaluation.setVisibility(View.GONE);
             StopEvaluation.setVisibility(View.GONE);
+            activity.navigateTo(RecordFragmentVoyant.newInstance());
         }
     }
 

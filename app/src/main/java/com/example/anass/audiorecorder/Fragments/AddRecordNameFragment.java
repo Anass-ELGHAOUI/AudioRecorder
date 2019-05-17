@@ -33,7 +33,7 @@ public class AddRecordNameFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.nv_record_fragment, container, false);
+        View view = inflater.inflate(R.layout.add_record_name_fragment, container, false);
         ButterKnife.bind(this, view);
         activity = (MainActivity) getActivity();
         return view;
@@ -53,9 +53,9 @@ public class AddRecordNameFragment extends Fragment {
     public void btnValidNameClicked(){
         String name = recordName.getText().toString();
         if(name.isEmpty()){
-            name = "default";
+            name = "Audio";
         }
-        activity.navigateTo(RecordFragment.newInstance());
+        activity.navigateTo(RecordFragment.newInstance(name));
     }
 
 
