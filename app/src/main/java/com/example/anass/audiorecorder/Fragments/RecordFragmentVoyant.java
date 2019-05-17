@@ -81,6 +81,11 @@ public class RecordFragmentVoyant extends Fragment implements OnLoadCompleted {
         activity.navigateTo(AddRecordNameFragment.newInstance());
     }
 
+    @OnClick(R.id.btn_back_records)
+    public void btnBackClicked(){
+        activity.onBackPressed();
+    }
+
     @Override
     public void OnLoadCompleted() {
         refreshRecyclerView();

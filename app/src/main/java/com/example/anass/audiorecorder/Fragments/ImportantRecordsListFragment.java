@@ -23,6 +23,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ImportantRecordsListFragment extends Fragment implements OnLoadCompleted {
 
@@ -90,6 +91,11 @@ public class ImportantRecordsListFragment extends Fragment implements OnLoadComp
         if (recordingItems != null && recordingItems.size() > 0) {
             adapter.addAllItems(recordingItems);
         }
+    }
+
+    @OnClick(R.id.btn_back_imp_rec)
+    public void btnBackClicked(){
+        activity.onBackPressed();
     }
 
 }

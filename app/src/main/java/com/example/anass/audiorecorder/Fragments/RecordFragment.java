@@ -27,6 +27,7 @@ import com.example.anass.audiorecorder.Database.Repositories.ImportantRecordRepo
 import com.example.anass.audiorecorder.Database.Repositories.RecordRepository;
 import com.example.anass.audiorecorder.Helper.OnLoadCompleted;
 import com.example.anass.audiorecorder.Helper.RecordingService;
+import com.example.anass.audiorecorder.Helper.Utils;
 import com.example.anass.audiorecorder.Models.ImportantRecord;
 import com.example.anass.audiorecorder.R;
 import com.melnykov.fab.FloatingActionButton;
@@ -77,6 +78,8 @@ public class RecordFragment extends Fragment implements OnLoadCompleted {
 
     private boolean mStartRecording = false;
 
+    private boolean mStartImpRecording = false;
+
     private static final String TAG = "RecordFragment";
     private static final String NAME_ARG = "nameRecord";
     public static String recordName;
@@ -107,6 +110,11 @@ public class RecordFragment extends Fragment implements OnLoadCompleted {
         activity = (MainActivity) getActivity();
         this.recordName = getArguments().getString(NAME_ARG);
         init();
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.RECORD_AUDIO)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.RECORD_AUDIO},
+                    10);
+        }
     }
 
     public void init() {
@@ -124,18 +132,26 @@ public class RecordFragment extends Fragment implements OnLoadCompleted {
     @OnClick(R.id.btnRecord)
     public void btnRecordOnClick() {
         mStartRecording = !mStartRecording;
-        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.RECORD_AUDIO)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.RECORD_AUDIO},
-                    10);
-        } else {
-            onRecord(mStartRecording);
+        onRecord(mStartRecording);
+        if (mStartImpRecording) {
+            if (mImportantRecord != null) {
+                mImportantRecord.setStopTime(System.currentTimeMillis());
+                mImportantRecord.setRecordId(lastIdAsyncTask.getLastId() + 1);
+                mImportantRecordRepository.addImportantRecord(mImportantRecord);
+                startEvaluation.setVisibility(View.VISIBLE);
+                StopEvaluation.setVisibility(View.GONE);
+                Utils.makeToast(activity.getApplicationContext(), "Important record saved.");
+                mStartImpRecording = !mStartImpRecording;
+            }
         }
+
     }
 
     @OnClick(R.id.btnStratEvaluation)
     public void StartImprtantRecord() {
+        mStartImpRecording = !mStartImpRecording;
         Log.i(TAG, "Important record started");
+        Utils.makeToast(activity.getApplicationContext(), "Important record started.");
         mImportantRecord = new ImportantRecord();
         mImportantRecord.setStartTime(System.currentTimeMillis());
         startEvaluation.setVisibility(View.GONE);
@@ -150,6 +166,8 @@ public class RecordFragment extends Fragment implements OnLoadCompleted {
             mImportantRecordRepository.addImportantRecord(mImportantRecord);
             startEvaluation.setVisibility(View.VISIBLE);
             StopEvaluation.setVisibility(View.GONE);
+            Utils.makeToast(activity.getApplicationContext(), "Important record saved.");
+            mStartImpRecording = !mStartImpRecording;
         }
     }
 

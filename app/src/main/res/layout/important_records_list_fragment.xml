@@ -11,19 +11,19 @@
         android:layout_width="match_parent"
         android:orientation="horizontal">
 
+        <ImageButton
+            android:id="@+id/btn_back_imp_rec"
+            style="@style/actionbar_back_buttons" />
+
         <TextView
             style="@style/actionbar_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="36dp"
             android:layout_marginEnd="36dp"
+            android:layout_marginStart="36dp"
             android:maxLines="1"
-            android:text="Record" />
+            android:text="Important Record" />
 
-        <!-- Btn menu -->
-        <ImageButton
-            android:id="@+id/imp_btn_menu"
-            style="@style/actionbar_settings_buttons" />
     </RelativeLayout>
 
     <RelativeLayout

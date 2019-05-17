@@ -18,7 +18,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/action_selection"
+            android:text="Record name"
             android:layout_marginStart="36dp"
             android:maxLines="1"
             android:layout_marginEnd="36dp"
@@ -48,7 +48,7 @@
         <Button
             android:id="@+id/btn_valid_name_record"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="36dp"
             android:background="@color/blue"
             android:textAllCaps="true"
             android:textColor="@color/white"

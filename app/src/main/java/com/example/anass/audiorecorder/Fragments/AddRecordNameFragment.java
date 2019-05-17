@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.example.anass.audiorecorder.Activities.MainActivity;
+import com.example.anass.audiorecorder.Helper.Utils;
 import com.example.anass.audiorecorder.R;
 
 import butterknife.Bind;
@@ -46,11 +47,13 @@ public class AddRecordNameFragment extends Fragment {
 
     @OnClick(R.id.btn_back_record_name)
     public void btnBackClicked(){
+        Utils.hideSoftKeyboard(activity);
         activity.onBackPressed();
     }
 
     @OnClick(R.id.btn_valid_name_record)
     public void btnValidNameClicked(){
+        Utils.hideSoftKeyboard(activity);
         String name = recordName.getText().toString();
         if(name.isEmpty()){
             name = "Audio";

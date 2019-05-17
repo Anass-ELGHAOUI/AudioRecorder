@@ -12,10 +12,8 @@
         android:layout_width="match_parent">
 
         <ImageButton
-            android:id="@+id/btn_add"
-            style="@style/actionbar_settings_buttons"
-            android:src="@drawable/ic_plus"
-            android:tint="@color/white"/>
+            android:id="@+id/btn_back_records"
+            style="@style/actionbar_back_buttons" />
 
         <TextView
             style="@style/actionbar_title"
@@ -25,6 +23,12 @@
             android:layout_marginEnd="36dp"
             android:maxLines="1"
             android:text="Records" />
+
+        <ImageButton
+            android:id="@+id/btn_add"
+            style="@style/actionbar_settings_buttons"
+            android:src="@drawable/ic_plus"
+            android:tint="@color/white"/>
 
     </RelativeLayout>
 
