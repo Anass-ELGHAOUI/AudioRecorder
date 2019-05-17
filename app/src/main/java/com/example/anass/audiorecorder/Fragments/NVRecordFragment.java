@@ -28,7 +28,6 @@ import com.example.anass.audiorecorder.R;
 import java.io.File;
 import java.util.Locale;
 
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -123,7 +122,7 @@ public class NVRecordFragment extends Fragment implements OnLoadCompleted {
                 if (mStartRecording) {
                     mImportantRecord = new ImportantRecord();
                     mImportantRecord.setStartTime(System.currentTimeMillis());
-                    isImpRecordStarted = true ;
+                    isImpRecordStarted = true;
                 }
             }
 
@@ -133,7 +132,7 @@ public class NVRecordFragment extends Fragment implements OnLoadCompleted {
                     mImportantRecord.setRecordId(lastIdAsyncTask.getLastId() + 1);
                     mImportantRecordRepository.addImportantRecord(mImportantRecord);
                     isImpRecordStarted = false;
-                }else if(!mStartRecording){
+                } else if (!mStartRecording) {
                     if (mTTS.isSpeaking()) {
                         mTTS.stop();
                         mTTS.shutdown();
@@ -142,6 +141,7 @@ public class NVRecordFragment extends Fragment implements OnLoadCompleted {
                 }
 
             }
+
             public void onSwipeBottom() {
                 if (mTTS.isSpeaking()) {
                     mTTS.stop();

@@ -2,39 +2,36 @@ package com.example.anass.audiorecorder.Fragments;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-        import android.app.Fragment;
-        import android.media.MediaPlayer;
-        import android.net.Uri;
-        import android.os.Build;
-        import android.os.Bundle;
-        import android.os.CountDownTimer;
-        import android.speech.tts.TextToSpeech;
-        import android.support.annotation.Nullable;
-        import android.util.Log;
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.widget.ImageView;
+import android.app.Fragment;
+import android.media.MediaPlayer;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.speech.tts.TextToSpeech;
+import android.support.annotation.Nullable;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 
-        import com.example.anass.audiorecorder.Activities.MainActivity;
-        import com.example.anass.audiorecorder.Helper.OnSwipeTouchListener;
-        import com.example.anass.audiorecorder.Helper.Utils;
-        import com.example.anass.audiorecorder.Models.ImportantRecord;
-        import com.example.anass.audiorecorder.Models.RecordingItem;
-        import com.example.anass.audiorecorder.R;
+import com.example.anass.audiorecorder.Activities.MainActivity;
+import com.example.anass.audiorecorder.Helper.OnSwipeTouchListener;
+import com.example.anass.audiorecorder.Models.ImportantRecord;
+import com.example.anass.audiorecorder.Models.RecordingItem;
+import com.example.anass.audiorecorder.R;
 
-        import java.io.IOException;
-        import java.util.HashMap;
-        import java.util.Locale;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Locale;
 
-        import butterknife.Bind;
-        import butterknife.ButterKnife;
-        import butterknife.OnLongClick;
+import butterknife.Bind;
 
-        import static butterknife.ButterKnife.bind;
-        import static butterknife.ButterKnife.unbind;
+import static butterknife.ButterKnife.bind;
+import static butterknife.ButterKnife.unbind;
 
-public class NVDisplayImpRecordFragment extends Fragment{
+public class NVDisplayImpRecordFragment extends Fragment {
 
     @Bind(R.id.iv_nv_choice)
     public ImageView ivChoice;
@@ -51,8 +48,8 @@ public class NVDisplayImpRecordFragment extends Fragment{
     public static NVDisplayImpRecordFragment newInstance(ImportantRecord importantRecord, RecordingItem recordingItem) {
         NVDisplayImpRecordFragment fragment = new NVDisplayImpRecordFragment();
         Bundle args = new Bundle();
-        args.putSerializable(IMPRECORD_ARGS,importantRecord);
-        args.putSerializable(RECORDITEM_ARGS,recordingItem);
+        args.putSerializable(IMPRECORD_ARGS, importantRecord);
+        args.putSerializable(RECORDITEM_ARGS, recordingItem);
         fragment.setArguments(args);
         return fragment;
     }
@@ -76,54 +73,56 @@ public class NVDisplayImpRecordFragment extends Fragment{
         init();
     }
 
-    public void init(){
+    public void init() {
         textToSpeechConfiguration();
         swipeConfiguration();
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private void swipeConfiguration(){
+    private void swipeConfiguration() {
         ivChoice.setOnTouchListener(new OnSwipeTouchListener(activity) {
             public void onSwipeTop() {
                 if (mTTS.isSpeaking()) {
                     mTTS.stop();
                     mTTS.shutdown();
                 }
-                if(mediaPlayer != null && mediaPlayer.isPlaying()){
+                if (mediaPlayer != null && mediaPlayer.isPlaying()) {
                     mediaPlayer.stop();
                     textToSpeechConverter("pour lancer le record glisser vers le haut, pour supprimer le record important glisser vers la gauche, pour retourner glisser vers le bas.");
-                }else{
+                } else {
                     displayRecord();
                 }
 
             }
+
             public void onSwipeRight() {
-                if(mediaPlayer.isPlaying()){
+                if (mediaPlayer.isPlaying()) {
                     mediaPlayer.stop();
                     textToSpeechConverter("pour lancer le record glisser vers le haut, pour supprimer le record important glisser vers la gauche, pour retourner glisser vers le bas.");
                 }
             }
+
             public void onSwipeLeft() {
                 if (mTTS.isSpeaking()) {
                     mTTS.stop();
                     mTTS.shutdown();
                 }
-                if(mediaPlayer.isPlaying()){
+                if (mediaPlayer.isPlaying()) {
                     mediaPlayer.stop();
                     textToSpeechConverter("pour lancer le record glisser vers le haut, pour supprimer le record important glisser vers la gauche, pour retourner glisser vers le bas.");
                 }
-               //delete record
+                //delete record
             }
+
             public void onSwipeBottom() {
                 if (mTTS.isSpeaking()) {
                     mTTS.stop();
                     mTTS.shutdown();
                 }
-                if(mediaPlayer.isPlaying()){
+                if (mediaPlayer.isPlaying()) {
                     mediaPlayer.stop();
                     textToSpeechConverter("pour lancer le record glisser vers le haut, pour supprimer le record important glisser vers la gauche, pour retourner glisser vers le bas.");
-                }
-                else{
+                } else {
                     activity.onBackPressed();
                 }
 
@@ -169,7 +168,7 @@ public class NVDisplayImpRecordFragment extends Fragment{
         }
     }
 
-    private void textToSpeechConfiguration(){
+    private void textToSpeechConfiguration() {
         mTTS = new TextToSpeech(activity, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -180,7 +179,8 @@ public class NVDisplayImpRecordFragment extends Fragment{
                             || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                         Log.e("TTS", "Language not supported");
                     } else {
-                        textToSpeechConverter("pour lancer le record glisser vers le haut, pour supprimer le record important glisser vers la gauche, pour retourner glisser vers le bas.");                    }
+                        textToSpeechConverter("pour lancer le record glisser vers le haut, pour supprimer le record important glisser vers la gauche, pour retourner glisser vers le bas.");
+                    }
                 } else {
                     Log.e("TTS", "Initialization failed");
                 }
@@ -205,7 +205,7 @@ public class NVDisplayImpRecordFragment extends Fragment{
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void ttsGreater21(String text) {
-        String utteranceId=this.hashCode() + "";
+        String utteranceId = this.hashCode() + "";
         mTTS.speak(text, TextToSpeech.QUEUE_FLUSH, null, utteranceId);
     }
 

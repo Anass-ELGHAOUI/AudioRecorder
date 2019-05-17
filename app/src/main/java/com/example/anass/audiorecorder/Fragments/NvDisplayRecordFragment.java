@@ -80,7 +80,7 @@ public class NvDisplayRecordFragment extends Fragment {
         swipeConfiguration();
     }
 
-    private void textToSpeechConfiguration(){
+    private void textToSpeechConfiguration() {
         mTTS = new TextToSpeech(activity, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -91,7 +91,8 @@ public class NvDisplayRecordFragment extends Fragment {
                             || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                         Log.e("TTS", "Language not supported");
                     } else {
-                        textToSpeechConverter(consigne);                    }
+                        textToSpeechConverter(consigne);
+                    }
                 } else {
                     Log.e("TTS", "Initialization failed");
                 }
@@ -100,7 +101,7 @@ public class NvDisplayRecordFragment extends Fragment {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private void swipeConfiguration(){
+    private void swipeConfiguration() {
         ivChoice.setOnTouchListener(new OnSwipeTouchListener(activity) {
             public void onSwipeTop() {
                 if (mTTS.isSpeaking()) {
@@ -122,6 +123,7 @@ public class NvDisplayRecordFragment extends Fragment {
                 }
 
             }
+
             public void onSwipeRight() {
                 if (mTTS.isSpeaking()) {
                     mTTS.stop();
@@ -134,6 +136,7 @@ public class NvDisplayRecordFragment extends Fragment {
                 }
 
             }
+
             public void onSwipeLeft() {
                 if (mTTS.isSpeaking()) {
                     mTTS.stop();
@@ -147,6 +150,7 @@ public class NvDisplayRecordFragment extends Fragment {
                     activity.navigateTo(RecordsListFragment.newInstance());
                 }
             }
+
             public void onSwipeBottom() {
                 if (mTTS.isSpeaking()) {
                     mTTS.stop();
@@ -194,7 +198,7 @@ public class NvDisplayRecordFragment extends Fragment {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void ttsGreater21(String text) {
-        String utteranceId=this.hashCode() + "";
+        String utteranceId = this.hashCode() + "";
         mTTS.speak(text, TextToSpeech.QUEUE_FLUSH, null, utteranceId);
     }
 

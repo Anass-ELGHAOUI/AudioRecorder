@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,13 +14,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.anass.audiorecorder.Activities.MainActivity;
-import com.example.anass.audiorecorder.Adapters.ImpRecordsAdapter;
-import com.example.anass.audiorecorder.Adapters.NVImpRecordsAdapter;
 import com.example.anass.audiorecorder.Database.DataBase;
 import com.example.anass.audiorecorder.Database.Repositories.ImportantRecordRepository;
 import com.example.anass.audiorecorder.Helper.OnLoadCompleted;
 import com.example.anass.audiorecorder.Helper.OnSwipeTouchListener;
-import com.example.anass.audiorecorder.Managers.RecyclerViewManager;
 import com.example.anass.audiorecorder.Models.ImportantRecord;
 import com.example.anass.audiorecorder.Models.RecordingItem;
 import com.example.anass.audiorecorder.R;
@@ -33,7 +29,6 @@ import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 import static butterknife.ButterKnife.unbind;
 

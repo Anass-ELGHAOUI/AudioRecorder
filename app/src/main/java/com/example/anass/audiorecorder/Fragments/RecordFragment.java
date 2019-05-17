@@ -78,10 +78,13 @@ public class RecordFragment extends Fragment implements OnLoadCompleted {
     private boolean mStartRecording = false;
 
     private static final String TAG = "RecordFragment";
+    private static final String NAME_ARG = "nameRecord";
+    public static String recordName;
 
-    public static RecordFragment newInstance() {
+    public static RecordFragment newInstance(String recordName) {
         RecordFragment fragment = new RecordFragment();
         Bundle args = new Bundle();
+        args.putString(NAME_ARG,recordName);
         fragment.setArguments(args);
         return fragment;
     }
@@ -102,6 +105,7 @@ public class RecordFragment extends Fragment implements OnLoadCompleted {
         super.onViewCreated(view, savedInstanceState);
         Log.i(TAG, "Lunched");
         activity = (MainActivity) getActivity();
+        this.recordName = getArguments().getString(NAME_ARG);
         init();
     }
 

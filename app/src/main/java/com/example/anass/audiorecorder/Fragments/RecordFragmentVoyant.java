@@ -79,7 +79,7 @@ public class RecordFragmentVoyant extends Fragment implements OnLoadCompleted {
 
     @OnClick(R.id.btn_add)
     public void adjclick() {
-        activity.navigateTo(RecordFragment.newInstance());
+        activity.navigateTo(AddRecordNameFragment.newInstance());
     }
 
     @Override

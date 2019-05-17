@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.anass.audiorecorder.Activities.MainActivity;
 import com.example.anass.audiorecorder.Database.Repositories.ImportantRecordRepository;
 import com.example.anass.audiorecorder.Database.Repositories.RecordRepository;
+import com.example.anass.audiorecorder.Fragments.RecordFragment;
 import com.example.anass.audiorecorder.Models.RecordingItem;
 import com.example.anass.audiorecorder.R;
 
@@ -131,14 +132,19 @@ public class RecordingService extends Service implements OnLoadCompleted {
     public void setFileNameAndPath() {
         int count = 0;
         File f;
-
-        do {
-            count++;
+        if(RecordFragment.recordName.equals("default")){
+            do {
+                count++;
+                mFilePath = getExternalCacheDir().getAbsolutePath();
+                mFileName = "Audio" + count;
+                mFilePath += "/" + mFileName + ".mp3";
+                f = new File(mFilePath);
+            } while (f.exists() && !f.isDirectory());
+        }else{
             mFilePath = getExternalCacheDir().getAbsolutePath();
-            mFileName = "Audio" + count;
+            mFileName = RecordFragment.recordName;
             mFilePath += "/" + mFileName + ".mp3";
-            f = new File(mFilePath);
-        } while (f.exists() && !f.isDirectory());
+        }
 
     }
 

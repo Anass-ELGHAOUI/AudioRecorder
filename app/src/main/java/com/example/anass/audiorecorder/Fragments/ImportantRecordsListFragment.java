@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.example.anass.audiorecorder.Activities.MainActivity;
 import com.example.anass.audiorecorder.Adapters.ImpRecordsAdapter;
 import com.example.anass.audiorecorder.Database.DataBase;
@@ -22,7 +23,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class ImportantRecordsListFragment extends Fragment implements OnLoadCompleted {
 
@@ -66,7 +66,7 @@ public class ImportantRecordsListFragment extends Fragment implements OnLoadComp
     public void init() {
         idRecord = getArguments().getInt(ARGS_ID);
         recordingItem = (RecordingItem) getArguments().getSerializable(ARGS_ITEM);
-        adapter = new ImpRecordsAdapter(activity,recordingItem);
+        adapter = new ImpRecordsAdapter(activity, recordingItem);
         RecyclerViewManager.configureRecycleView(activity, mainRecycler);
         mainRecycler.setAdapter(adapter);
         getData();

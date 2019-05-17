@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
+        style="@style/action_bar_style">
+
+        <ImageButton
+            android:id="@+id/btn_back_record_name"
+            style="@style/actionbar_back_buttons" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/action_selection"
+            android:layout_marginStart="36dp"
+            android:maxLines="1"
+            android:layout_marginEnd="36dp"
+            style="@style/actionbar_title" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="60dp"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/et_record_name"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textSize="15sp"
+            android:fontFamily="@font/montserrat_medium"
+            android:textColor="@color/black"
+            android:hint="Record Name"
+            android:textColorHint="@color/grey_dark"
+            android:layout_marginBottom="20dp"/>
+
+        <Button
+            android:id="@+id/btn_valid_name_record"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@color/blue"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:fontFamily="@font/montserrat_regular"
+            android:textSize="15sp"
+            android:text="Valider"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>

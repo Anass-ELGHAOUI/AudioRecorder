@@ -15,20 +15,17 @@ import android.widget.ImageView;
 
 import com.example.anass.audiorecorder.Activities.MainActivity;
 import com.example.anass.audiorecorder.Helper.OnSwipeTouchListener;
-import com.example.anass.audiorecorder.Helper.Utils;
 import com.example.anass.audiorecorder.R;
 
 import java.util.HashMap;
 import java.util.Locale;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnLongClick;
 
 import static butterknife.ButterKnife.bind;
 import static butterknife.ButterKnife.unbind;
 
-public class NVChoiceFragment extends Fragment{
+public class NVChoiceFragment extends Fragment {
 
     @Bind(R.id.iv_nv_choice)
     public ImageView ivChoice;
@@ -60,12 +57,13 @@ public class NVChoiceFragment extends Fragment{
         init();
     }
 
-    public void init(){
+    public void init() {
         textToSpeechConfiguration();
         swipeConfiguration();
     }
+
     @SuppressLint("ClickableViewAccessibility")
-    private void swipeConfiguration(){
+    private void swipeConfiguration() {
         ivChoice.setOnTouchListener(new OnSwipeTouchListener(activity) {
             public void onSwipeTop() {
                 if (mTTS.isSpeaking()) {
@@ -74,6 +72,7 @@ public class NVChoiceFragment extends Fragment{
                 }
                 activity.navigateTo(RecordsListFragment.newInstance());
             }
+
             public void onSwipeRight() {
                 if (mTTS.isSpeaking()) {
                     mTTS.stop();
@@ -81,6 +80,7 @@ public class NVChoiceFragment extends Fragment{
                 }
                 activity.onBackPressed();
             }
+
             public void onSwipeLeft() {
                 if (mTTS.isSpeaking()) {
                     mTTS.stop();
@@ -88,6 +88,7 @@ public class NVChoiceFragment extends Fragment{
                 }
                 activity.navigateTo(NVRecordFragment.newInstance());
             }
+
             public void onSwipeBottom() {
                 if (mTTS.isSpeaking()) {
                     mTTS.stop();
@@ -99,7 +100,7 @@ public class NVChoiceFragment extends Fragment{
         });
     }
 
-    private void textToSpeechConfiguration(){
+    private void textToSpeechConfiguration() {
         mTTS = new TextToSpeech(activity, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -110,7 +111,8 @@ public class NVChoiceFragment extends Fragment{
                             || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                         Log.e("TTS", "Language not supported");
                     } else {
-                        textToSpeechConverter("pour enregistrer un nouveau record glisser vers la gauche, pour consulter la liste des enregistrements glisser vers le haut. Pour revenir glisser vers la droite.  glisser vers le bas pour écouter les consignes ");                    }
+                        textToSpeechConverter("pour enregistrer un nouveau record glisser vers la gauche, pour consulter la liste des enregistrements glisser vers le haut. Pour revenir glisser vers la droite.  glisser vers le bas pour écouter les consignes ");
+                    }
                 } else {
                     Log.e("TTS", "Initialization failed");
                 }
@@ -135,7 +137,7 @@ public class NVChoiceFragment extends Fragment{
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void ttsGreater21(String text) {
-        String utteranceId=this.hashCode() + "";
+        String utteranceId = this.hashCode() + "";
         mTTS.speak(text, TextToSpeech.QUEUE_FLUSH, null, utteranceId);
     }
 
