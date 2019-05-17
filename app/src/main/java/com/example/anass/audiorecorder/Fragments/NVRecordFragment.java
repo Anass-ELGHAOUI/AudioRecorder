@@ -15,6 +15,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.anass.audiorecorder.Activities.MainActivity;
+import com.example.anass.audiorecorder.Database.DataBase;
+import com.example.anass.audiorecorder.Database.Repositories.RecordRepository;
+import com.example.anass.audiorecorder.Helper.OnLoadCompleted;
 import com.example.anass.audiorecorder.Helper.OnSwipeTouchListener;
 import com.example.anass.audiorecorder.Helper.RecordingService;
 import com.example.anass.audiorecorder.R;
@@ -26,7 +29,7 @@ import java.util.Locale;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class NVRecordFragment extends Fragment {
+public class NVRecordFragment extends Fragment implements OnLoadCompleted {
 
     private MainActivity activity;
 
@@ -35,6 +38,9 @@ public class NVRecordFragment extends Fragment {
     public ImageView imageView;
 
     private TextToSpeech mTTS;
+    private DataBase db;
+    private RecordRepository.getLastIdAsyncTask lastIdAsyncTask;
+    private boolean isImpRecordStarted = false;
 
     private boolean mStartRecording = false;
 
@@ -54,6 +60,9 @@ public class NVRecordFragment extends Fragment {
     }
 
     public void init() {
+        db = DataBase.getInstance(activity.getApplicationContext());
+        lastIdAsyncTask = new RecordRepository.getLastIdAsyncTask(db.recordDao(), this);
+        lastIdAsyncTask.execute();
         swipeConfiguration();
         mTTS = new TextToSpeech(activity.getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
@@ -184,5 +193,10 @@ public class NVRecordFragment extends Fragment {
             mTTS.stop();
             mTTS.shutdown();
         }
+    }
+
+    @Override
+    public void OnLoadCompleted() {
+
     }
 }
