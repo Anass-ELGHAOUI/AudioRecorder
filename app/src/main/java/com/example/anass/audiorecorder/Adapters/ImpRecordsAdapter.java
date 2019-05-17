@@ -1,6 +1,5 @@
 package com.example.anass.audiorecorder.Adapters;
 
-import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -18,9 +17,7 @@ import android.widget.TextView;
 import com.example.anass.audiorecorder.Activities.MainActivity;
 import com.example.anass.audiorecorder.Database.DataBase;
 import com.example.anass.audiorecorder.Database.Repositories.ImportantRecordRepository;
-import com.example.anass.audiorecorder.Database.Repositories.RecordRepository;
 import com.example.anass.audiorecorder.Fragments.ImportantRecordsListFragment;
-import com.example.anass.audiorecorder.Helper.Utils;
 import com.example.anass.audiorecorder.Models.ImportantRecord;
 import com.example.anass.audiorecorder.Models.RecordingItem;
 import com.example.anass.audiorecorder.R;
@@ -132,7 +129,7 @@ public class ImpRecordsAdapter extends RecyclerView.Adapter<ImpRecordsAdapter.Re
                                     return true;
                                 case R.id.deleteImpRecord:
                                     recordRepository.deleteImportantRecord(importantRecord);
-                                    activity.navigateTo(ImportantRecordsListFragment.newInstance(importantRecord.getRecordId(),recordingItem));
+                                    activity.navigateTo(ImportantRecordsListFragment.newInstance(importantRecord.getRecordId(), recordingItem));
                                     return true;
 
                             }
@@ -204,7 +201,7 @@ public class ImpRecordsAdapter extends RecyclerView.Adapter<ImpRecordsAdapter.Re
     public void addAllItems(List<ImportantRecord> liste) {
         this.liste.addAll(liste);
         notifyDataSetChanged();
-    }
+            }
 }
 
 
