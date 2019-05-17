@@ -130,14 +130,14 @@ public class NVRecordFragment extends Fragment implements OnLoadCompleted {
     public void getInstructions() {
         speak("Glissez vers la gauche pour saisir le nom du record, vers le haut pour ajouter un nouveau record, " +
                 "vers le bas pour enregistrez le record, vers la droite pour revenir au menu précédent" +
-                " , vers la gauche pour écouter les consignes. Long clique pour écouter la consigne." +
+                ". Long clique pour écouter la consigne." +
                 "Aprés le lancement de record glisser vers la droite pour lancer un record imprtant et vers la gauche pour le sauvgarder.");
     }
 
     public void getInstructions(String text) {
         speak(text + "Glissez vers la gauche pour saisir le nom du record, vers le haut pour ajouter un nouveau record, " +
                 "vers le bas pour enregistrez le record, vers la droite pour revenir au menu précédent" +
-                " , vers la gauche pour écouter les consignes. Long clique pour écouter la consigne." +
+                ". Long clique pour écouter la consigne." +
                 "Aprés le lancement de record glisser vers la droite pour lancer un record imprtant et vers la gauche pour le sauvgarder.");
     }
 
@@ -215,6 +215,7 @@ public class NVRecordFragment extends Fragment implements OnLoadCompleted {
                     fileName = result.get(0);
                     fileNameSelected = true;
                     Log.i(TAG, "onActivityResult: fileName: " + fileName);
+                    speak("Le nom du record est: " + fileName + ". Glissez vers le haut pour commencer l'enregistrement.");
                 }
                 break;
         }

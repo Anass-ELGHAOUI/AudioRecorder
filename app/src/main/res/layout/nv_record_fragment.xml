@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -31,10 +30,9 @@
             android:id="@+id/image_view_foot_print"
             android:layout_width="800px"
             android:layout_height="900px"
-            android:src="@drawable/ic_footprint"
-            android:tint="@color/grey_dark"
             android:contentDescription="@string/new_record"
-            />
+            android:src="@drawable/ic_footprint"
+            android:tint="@color/grey_dark" />
     </LinearLayout>
 
 
