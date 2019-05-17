@@ -1,5 +1,6 @@
 package com.example.anass.audiorecorder.Fragments;
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,10 +17,12 @@ import android.widget.Toast;
 
 import com.example.anass.audiorecorder.Activities.MainActivity;
 import com.example.anass.audiorecorder.Database.DataBase;
+import com.example.anass.audiorecorder.Database.Repositories.ImportantRecordRepository;
 import com.example.anass.audiorecorder.Database.Repositories.RecordRepository;
 import com.example.anass.audiorecorder.Helper.OnLoadCompleted;
 import com.example.anass.audiorecorder.Helper.OnSwipeTouchListener;
 import com.example.anass.audiorecorder.Helper.RecordingService;
+import com.example.anass.audiorecorder.Models.ImportantRecord;
 import com.example.anass.audiorecorder.R;
 
 import java.io.File;
@@ -40,6 +43,8 @@ public class NVRecordFragment extends Fragment implements OnLoadCompleted {
     private TextToSpeech mTTS;
     private DataBase db;
     private RecordRepository.getLastIdAsyncTask lastIdAsyncTask;
+    ImportantRecordRepository mImportantRecordRepository;
+    private ImportantRecord mImportantRecord;
     private boolean isImpRecordStarted = false;
 
     private boolean mStartRecording = false;
@@ -60,6 +65,7 @@ public class NVRecordFragment extends Fragment implements OnLoadCompleted {
     }
 
     public void init() {
+        mImportantRecordRepository = new ImportantRecordRepository(activity.getApplication());
         db = DataBase.getInstance(activity.getApplicationContext());
         lastIdAsyncTask = new RecordRepository.getLastIdAsyncTask(db.recordDao(), this);
         lastIdAsyncTask.execute();
@@ -92,27 +98,13 @@ public class NVRecordFragment extends Fragment implements OnLoadCompleted {
         mTTS.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
     }
 
-    /*@OnClick(R.id.image_view_foot_print)
-    public void Record() {
-        if (mTTS .isSpeaking()) {
-            mTTS.stop();
-            mTTS.shutdown();
-        }
-        mStartRecording = !mStartRecording;
-        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.RECORD_AUDIO)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.RECORD_AUDIO},
-                    10);
-        } else {
-            onRecord(mStartRecording);
-        }
-    }*/
 
     public void getInstructions() {
         speak("Glissez ver le haut pour ajouter un nouveau record, vers le bas pour enregistrez le record, " +
-                " vers la droite pour revenir au menu précédent, vers la gauche pour écouter les consignes");
+                " vers la gauche pour revenir au menu précédent. Aprés le lancement de record glisser vers la droite pour lancer un record imprtant et vers la gauche pour le sauvgarder.");
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void swipeConfiguration() {
         imageView.setOnTouchListener(new OnSwipeTouchListener(activity) {
             public void onSwipeTop() {
@@ -128,22 +120,25 @@ public class NVRecordFragment extends Fragment implements OnLoadCompleted {
             }
 
             public void onSwipeRight() {
-                if (mTTS.isSpeaking()) {
-                    mTTS.stop();
-                    mTTS.shutdown();
-                }
-                if (!mStartRecording) {
-                    activity.onBackPressed();
+                if (mStartRecording) {
+                    mImportantRecord = new ImportantRecord();
+                    mImportantRecord.setStartTime(System.currentTimeMillis());
+                    isImpRecordStarted = true ;
                 }
             }
 
             public void onSwipeLeft() {
-                if (mTTS.isSpeaking()) {
-                    mTTS.stop();
-                    mTTS.shutdown();
-                }
-                if (!mStartRecording) {
-                    getInstructions();
+                if (mStartRecording && isImpRecordStarted) {
+                    mImportantRecord.setStopTime(System.currentTimeMillis());
+                    mImportantRecord.setRecordId(lastIdAsyncTask.getLastId() + 1);
+                    mImportantRecordRepository.addImportantRecord(mImportantRecord);
+                    isImpRecordStarted = false;
+                }else if(!mStartRecording){
+                    if (mTTS.isSpeaking()) {
+                        mTTS.stop();
+                        mTTS.shutdown();
+                    }
+                    activity.onBackPressed();
                 }
 
             }
@@ -155,7 +150,7 @@ public class NVRecordFragment extends Fragment implements OnLoadCompleted {
                 if (mStartRecording) {
                     mStartRecording = !mStartRecording;
                     onRecord(mStartRecording);
-                    speak("Record enregistrer avec succés");
+                    speak("Record enregistrer avec succés.");
                 }
             }
 

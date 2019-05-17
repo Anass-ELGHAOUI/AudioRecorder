@@ -1,5 +1,6 @@
 package com.example.anass.audiorecorder.Fragments;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.os.Build;
@@ -89,6 +90,7 @@ public class NVImpRecordsListFragment extends Fragment implements OnLoadComplete
         swipeConfiguration();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void swipeConfiguration(){
         ivImpList.setOnTouchListener(new OnSwipeTouchListener(activity) {
             public void onSwipeTop() {
