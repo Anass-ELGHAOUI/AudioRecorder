@@ -9,6 +9,8 @@ import android.os.Bundle;
 import com.example.anass.audiorecorder.Fragments.ModeChoiceFragment;
 import com.example.anass.audiorecorder.Fragments.NVRecordFragment;
 import com.example.anass.audiorecorder.Fragments.RecordFragment;
+import com.example.anass.audiorecorder.Fragments.RecordFragmentVoyant;
+import com.example.anass.audiorecorder.Helper.Utils;
 import com.example.anass.audiorecorder.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,7 +19,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        this.navigateTo(ModeChoiceFragment.newInstance());
+        if(Utils.checkPermission(getApplicationContext()))
+            this.navigateTo(ModeChoiceFragment.newInstance());
+        else
+            this.navigateTo(RecordFragmentVoyant.newInstance());
     }
 
     public void navigateTo(Fragment fragment){
