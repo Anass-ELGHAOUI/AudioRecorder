@@ -14,8 +14,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.anass.audiorecorder.Activities.MainActivity;
+import com.example.anass.audiorecorder.Database.DataBase;
+import com.example.anass.audiorecorder.Database.Repositories.ChoiceRepository;
 import com.example.anass.audiorecorder.Helper.OnSwipeTouchListener;
 import com.example.anass.audiorecorder.Helper.Utils;
+import com.example.anass.audiorecorder.Models.Choice;
 import com.example.anass.audiorecorder.R;
 
 import java.util.HashMap;
@@ -34,6 +37,8 @@ public class ModeChoiceFragment extends Fragment {
 
     MainActivity activity;
     private TextToSpeech mTTS;
+    private Choice mChoice;
+    ChoiceRepository choiceRepository;
 
     public static ModeChoiceFragment newInstance() {
         ModeChoiceFragment fragment = new ModeChoiceFragment();
@@ -62,6 +67,8 @@ public class ModeChoiceFragment extends Fragment {
     public void init() {
         textToSpeechConfiguration();
         swipeConfiguration();
+        choiceRepository = new ChoiceRepository(activity.getApplication());
+        mChoice = new Choice();
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -76,6 +83,9 @@ public class ModeChoiceFragment extends Fragment {
                     mTTS.stop();
                     mTTS.shutdown();
                 }
+
+                mChoice.setChoix(1);
+                choiceRepository.addChoice(mChoice);
                 activity.navigateTo(NVChoiceFragment.newInstance());
             }
 
@@ -86,6 +96,8 @@ public class ModeChoiceFragment extends Fragment {
                     mTTS.stop();
                     mTTS.shutdown();
                 }
+                mChoice.setChoix(0);
+                choiceRepository.addChoice(mChoice);
                 activity.navigateTo(RecordFragmentVoyant.newInstance());
             }
 
