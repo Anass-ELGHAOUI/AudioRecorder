@@ -13,4 +13,4 @@ Simple audio recording app implementing Material Design and integrating accessib
 </ul>
 
 ## technical report:
-https://www.slideshare.net/AbderrahimBoumahdi1/technical-report-for-android-project<a href="">Download here</a>
+<a href="https://www.slideshare.net/AbderrahimBoumahdi1/technical-report-for-android-project">Download here</a>
